@@ -19,7 +19,9 @@ const EditQuizDetails = async ({
       correctAnswer: q.correctAnswer,
     })),
   };
-  return <QuizForm initialData={quizData} mode="edit" />;
+  return (
+    <QuizForm quizId={data._id.toString()} initialData={quizData} mode="edit" />
+  );
 };
 
 export default EditQuizDetails;

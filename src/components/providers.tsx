@@ -4,7 +4,6 @@ import { SessionProvider } from "next-auth/react";
 import React, { PropsWithChildren } from "react";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 
-import Header from "./header";
 import { Toaster } from "./ui/sonner";
 
 function ThemeProvider({
@@ -22,7 +21,6 @@ const Providers = ({ children }: PropsWithChildren): React.JSX.Element => (
       enableSystem
       disableTransitionOnChange
     >
-      <Header />
       {children}
       <Toaster />
     </ThemeProvider>

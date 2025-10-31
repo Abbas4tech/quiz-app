@@ -21,6 +21,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { QuizForm, quizSchema } from "@/schemas/quiz";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
+import { toast } from "sonner";
 
 interface QuizFormComponentProps {
   mode: "create" | "edit";
@@ -104,6 +105,7 @@ export default function QuizFormComponent({
   async function submitQuiz(data: QuizForm) {
     setIsSubmitting(true);
     try {
+      console.log(quizId);
       const url = mode === "create" ? "/api/quiz" : `/api/quiz/${quizId}`;
       const method = mode === "create" ? "POST" : "PUT";
 
@@ -117,9 +119,14 @@ export default function QuizFormComponent({
         throw new Error("Failed to save quiz");
       }
 
-      const result = await response.json();
-
-      router.push(`/dashboard/quiz/${result.quiz.id}`);
+      const result: {
+        message: string;
+        quiz: { questionsCount: number; title: string; _id: string };
+      } = await response.json();
+      if (result.message) {
+        toast.success(result.message);
+      }
+      router.push(`/dashboard/quiz/${result.quiz._id}`);
       router.refresh();
     } catch (error) {
       console.error(error);
@@ -347,12 +354,12 @@ export default function QuizFormComponent({
               >
                 {isSubmitting ? (
                   <>
-                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                    <Loader2 className="h-4 w-4 animate-spin" />
                     Saving...
                   </>
                 ) : (
                   <>
-                    <Save className="h-4 w-4 mr-2" />
+                    <Save className="h-4 w-4" />
                     {mode === "create" ? "Create Quiz" : "Update Quiz"}
                   </>
                 )}
