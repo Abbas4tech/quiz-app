@@ -1,5 +1,4 @@
 import { AppSidebar } from "@/components";
-
 import { getAllQuizzes } from "@/actions/quiz";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 

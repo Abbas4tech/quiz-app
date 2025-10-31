@@ -15,6 +15,19 @@ export const middleware: NextMiddleware = async (request) => {
 
   const url = request.nextUrl;
 
+  // 🛠️ PUBLIC ROUTES: Allow unauthenticated access to quiz pages
+  // These routes are accessible to everyone without login
+  const publicQuizRoutes = ["/quizzes", "/quiz"];
+
+  const isPublicQuizRoute = publicQuizRoutes.some((route) =>
+    url.pathname.startsWith(route)
+  );
+
+  // If it's a public quiz route, allow access without authentication
+  if (isPublicQuizRoute) {
+    return NextResponse.next();
+  }
+
   // 🛠️ CUSTOMIZE: Public routes that should redirect authenticated users
   // Example: If user is logged in and tries to access auth pages, redirect to dashboard
   if (url.pathname === "/" && token) {
@@ -29,13 +42,19 @@ export const middleware: NextMiddleware = async (request) => {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
-  // 🛠️ CUSTOMIZE: Add more route protection logic here
-  // Example: Admin-only routes
-  /*
-  if (url.pathname.startsWith("/admin") && token?.role !== "admin") {
-    return NextResponse.redirect(new URL("/unauthorized", request.url));
+  // 🛠️ CUSTOMIZE: Admin-only routes
+  // Check if user has admin role for admin panel access
+  if (url.pathname.startsWith("/admin") && token) {
+    // If user doesn't have admin role, redirect to unauthorized or home
+    if (token.role !== "admin") {
+      return NextResponse.redirect(new URL("/unauthorized", request.url));
+    }
   }
-  */
+
+  // Protect admin routes if no token
+  if (url.pathname.startsWith("/admin") && !token) {
+    return NextResponse.redirect(new URL("/", request.url));
+  }
 
   return NextResponse.next();
 };
@@ -47,5 +66,8 @@ export const config: MiddlewareConfig = {
     // 🛠️ CUSTOMIZE: Add routes you want to protect or process
     "/",
     "/dashboard/:path*",
+    "/admin/:path*", // Protect all admin routes
+    "/quizzes/:path*", // Process quiz listing (public)
+    "/quiz/:path*", // Process individual quiz pages (public)
   ],
 };
