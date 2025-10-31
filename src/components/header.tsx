@@ -23,7 +23,7 @@ const Header = (): React.JSX.Element => {
     );
 
   return (
-    <header className="px-4 py-6 w-full bg-accent flex items-center justify-between">
+    <header className="px-4 py-6 gap-2 w-full bg-accent flex items-center justify-between">
       <div>
         <h1 className="text-3xl font-bold bg-gradient-to-r text-primary">
           Quiz Arena

@@ -1,6 +1,6 @@
 import mongoose, { Schema, Model, Types } from "mongoose";
 
-export interface IQuestion {
+export interface Question {
   questionText: string;
   options: string[];
   correctAnswer: string;
@@ -10,13 +10,13 @@ export interface Quiz {
   _id: Types.ObjectId;
   title: string;
   description?: string;
-  questions: IQuestion[];
+  questions: Question[];
   createdBy?: mongoose.Types.ObjectId;
   createdAt: Date;
   updatedAt: Date;
 }
 
-const questionSchema = new Schema<IQuestion>(
+const questionSchema = new Schema<Question>(
   {
     questionText: {
       type: String,
@@ -37,7 +37,7 @@ const questionSchema = new Schema<IQuestion>(
       type: String,
       required: [true, "Correct answer is required"],
       validate: {
-        validator: function (this: IQuestion, v: string): boolean {
+        validator: function (this: Question, v: string): boolean {
           return this.options.includes(v);
         },
         message: "Correct answer must be one of the options",
@@ -63,7 +63,7 @@ const quizSchema = new Schema<Quiz>(
       type: [questionSchema],
       required: true,
       validate: {
-        validator: function (v: IQuestion[]): boolean {
+        validator: function (v: Question[]): boolean {
           return v.length >= 1 && v.length <= 50;
         },
         message: "Quiz must have between 1 and 50 questions",

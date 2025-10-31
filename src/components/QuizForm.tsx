@@ -134,7 +134,7 @@ export default function QuizFormComponent({
   }
 
   return (
-    <div className="min-h-screen py-8 px-4">
+    <div className="md:py-8">
       <div className="max-w-4xl mx-auto">
         <div className="mb-8">
           <h1 className="text-3xl font-bold">
@@ -223,7 +223,7 @@ export default function QuizFormComponent({
                     className="mt-3"
                     onClick={handleAddOption}
                   >
-                    <Plus className="h-4 w-4 mr-2" />
+                    <Plus className="h-4 w-4" />
                     Add Option
                   </Button>
                 </div>

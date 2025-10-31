@@ -3,6 +3,7 @@ import React from "react";
 import { AppSidebar } from "@/components";
 import { getAllQuizzes } from "@/actions/quiz";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import ThemeToggle from "@/components/theme-toggle";
 
 export default async function AdminLayout({
   children,
@@ -18,6 +19,7 @@ export default async function AdminLayout({
           <div className="sticky top-0 z-10 flex h-14 items-center gap-4 border-b bg-background px-6">
             <SidebarTrigger />
             <h1 className="text-lg font-semibold">Quiz Management</h1>
+            <ThemeToggle className="ml-auto" />
           </div>
           <div className="p-6">{children}</div>
         </main>

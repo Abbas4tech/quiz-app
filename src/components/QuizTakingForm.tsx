@@ -325,7 +325,7 @@ export default function QuizTakingForm({
           </div>
         </CardHeader>
 
-        <CardContent className="pt-6">
+        <CardContent className="">
           <RadioGroup
             value={answers[currentQuestionIndex] || ""}
             onValueChange={handleSelectAnswer}
