@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
+import { revalidatePath } from "next/cache";
 
 import QuizModel from "@/model/Quiz";
 import { quizSchema } from "@/schemas/quiz";
@@ -77,11 +78,14 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       createdBy: session.user._id,
     });
 
+    revalidatePath("/dashboard");
+    revalidatePath("/quizzes");
+
     return NextResponse.json(
       {
         message: "Quiz created successfully",
         quiz: {
-          id: quiz._id,
+          _id: quiz._id.toString(),
           title: quiz.title,
           description: quiz.description,
           questionsCount: quiz.questions.length,

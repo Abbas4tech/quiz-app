@@ -10,10 +10,11 @@ import { Button } from "@/components/ui/button";
 export default async function QuizPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }): Promise<React.JSX.Element> {
   try {
-    const quiz = await getPublicQuizById(params.id);
+    const { id } = await params;
+    const quiz = await getPublicQuizById(id);
 
     if (!quiz || !quiz.questions || quiz.questions.length === 0) {
       notFound();

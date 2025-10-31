@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
+import { revalidatePath } from "next/cache"; // ✅ Add this import
 
 import dbConnect from "@/db/connection";
 import QuizModel from "@/model/Quiz";
@@ -16,7 +17,7 @@ export async function GET(
   try {
     await dbConnect();
 
-    const { id } = await params; // ← Await params
+    const { id } = await params;
 
     const quiz = await QuizModel.findById(id).lean();
 
@@ -24,7 +25,6 @@ export async function GET(
       return NextResponse.json({ error: "Quiz not found" }, { status: 404 });
     }
 
-    // Return quiz with stringified _id
     return NextResponse.json({
       _id: quiz._id.toString(),
       title: quiz.title,
@@ -50,7 +50,6 @@ export async function PUT(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    // Check authentication
     const session = await getServerSession(authOptions);
 
     if (!session || !session.user) {
@@ -69,11 +68,10 @@ export async function PUT(
 
     await dbConnect();
 
-    const { id } = await params; // ← Await params
+    const { id } = await params;
 
     const body = await request.json();
 
-    // Validate with Zod schema
     const validationResult = quizSchema.safeParse(body);
 
     if (!validationResult.success) {
@@ -88,11 +86,10 @@ export async function PUT(
 
     const quizData = validationResult.data;
 
-    // Update quiz - ensure it belongs to the admin
     const quiz = await QuizModel.findOneAndUpdate(
       {
         _id: id,
-        createdBy: session.user._id, // Ensure ownership
+        createdBy: session.user._id,
       },
       quizData,
       { new: true, runValidators: true }
@@ -104,6 +101,10 @@ export async function PUT(
         { status: 404 }
       );
     }
+
+    revalidatePath("/dashboard");
+    revalidatePath("/quizzes");
+    revalidatePath(`/quiz/${id}`);
 
     return NextResponse.json({
       message: "Quiz updated successfully",
@@ -139,7 +140,6 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    // Check authentication
     const session = await getServerSession(authOptions);
 
     if (!session || !session.user) {
@@ -158,12 +158,11 @@ export async function DELETE(
 
     await dbConnect();
 
-    const { id } = await params; // ← Await params
+    const { id } = await params;
 
-    // Delete quiz - ensure it belongs to the admin
     const quiz = await QuizModel.findOneAndDelete({
       _id: id,
-      createdBy: session.user._id, // Ensure ownership
+      createdBy: session.user._id,
     });
 
     if (!quiz) {
@@ -172,6 +171,9 @@ export async function DELETE(
         { status: 404 }
       );
     }
+
+    revalidatePath("/dashboard");
+    revalidatePath("/quizzes");
 
     return NextResponse.json({
       message: "Quiz deleted successfully",
