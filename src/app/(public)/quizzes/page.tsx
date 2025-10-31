@@ -18,8 +18,8 @@ export default async function QuizzesPage() {
       <main className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         {/* Stats Cards */}
         <div className="mb-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          <Card className="border-2 overflow-hidden bg-gradient-to-br from-blue-500 to-blue-600 text-white shadow-lg hover:shadow-xl transition-shadow">
-            <CardContent className="pt-6">
+          <Card className="border-2 overflow-hidden bg-gradient-to-br shadow-lg hover:shadow-xl transition-shadow">
+            <CardContent>
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium opacity-90">
@@ -35,8 +35,8 @@ export default async function QuizzesPage() {
             </CardContent>
           </Card>
 
-          <Card className="border-2 overflow-hidden bg-gradient-to-br from-purple-500 to-purple-600 text-white shadow-lg hover:shadow-xl transition-shadow">
-            <CardContent className="pt-6">
+          <Card className="border-2 overflow-hidden bg-gradient-to-br shadow-lg hover:shadow-xl transition-shadow">
+            <CardContent>
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium opacity-90">
@@ -53,7 +53,7 @@ export default async function QuizzesPage() {
           </Card>
 
           <Card className="border-2 overflow-hidden bg-gradient-to-br shadow-lg hover:shadow-xl transition-shadow">
-            <CardContent className="pt-6">
+            <CardContent>
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium opacity-90">
@@ -74,13 +74,9 @@ export default async function QuizzesPage() {
         {quizzes.length > 0 ? (
           <div className="space-y-6">
             <div className="flex items-center justify-between">
-              <h2 className="text-3xl font-bold text-slate-900">
+              <h2 className="text-3xl font-bold text-primary">
                 Choose Your Quiz
               </h2>
-              <div className="text-sm text-slate-600">
-                {quizzes.length} {quizzes.length === 1 ? "quiz" : "quizzes"}{" "}
-                available
-              </div>
             </div>
 
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -101,28 +97,6 @@ export default async function QuizzesPage() {
           </Card>
         )}
       </main>
-
-      {/* Footer */}
-      <footer className="border-t bg-white mt-16">
-        <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-sm text-slate-600">
-              © 2025 Quiz Arena. All rights reserved.
-            </p>
-            <div className="flex items-center gap-6 text-sm text-slate-600">
-              <a href="#" className="hover:text-primary transition-colors">
-                About
-              </a>
-              <a href="#" className="hover:text-primary transition-colors">
-                Contact
-              </a>
-              <a href="#" className="hover:text-primary transition-colors">
-                Privacy
-              </a>
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }
