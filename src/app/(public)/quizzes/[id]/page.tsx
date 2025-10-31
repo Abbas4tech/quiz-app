@@ -1,3 +1,4 @@
+import React from "react";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
@@ -6,9 +7,13 @@ import QuizTakingForm from "@/components/QuizTakingForm";
 import { getPublicQuizById } from "@/actions/quiz";
 import { Button } from "@/components/ui/button";
 
-export default async function QuizPage({ params }: { params: { id: string } }) {
+export default async function QuizPage({
+  params,
+}: {
+  params: { id: string };
+}): Promise<React.JSX.Element> {
   try {
-    const quiz = await getPublicQuizById(params.id); // Changed function
+    const quiz = await getPublicQuizById(params.id);
 
     if (!quiz || !quiz.questions || quiz.questions.length === 0) {
       notFound();
@@ -39,6 +44,7 @@ export default async function QuizPage({ params }: { params: { id: string } }) {
       </div>
     );
   } catch (error) {
+    console.error(error);
     notFound();
   }
 }

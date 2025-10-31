@@ -1,5 +1,5 @@
 "use server";
-
+import { FlattenMaps, Types } from "mongoose";
 import { getServerSession } from "next-auth";
 import { notFound, redirect } from "next/navigation";
 
@@ -50,8 +50,6 @@ export async function getAllQuizzes(
     .limit(limit)
     .lean();
 
-  console.log(quizzes);
-
   const res = quizzes.map((item) => ({
     _id: item._id.toString(),
     title: item.title,
@@ -95,7 +93,26 @@ export async function getPublicQuizzes(
 /**
  * Fetch a specific quiz by its MongoDB ID (Admin version - requires auth).
  */
-export async function getQuizById(id: string) {
+export async function getQuizById(id: string): Promise<
+  FlattenMaps<{
+    _id: Types.ObjectId;
+    title: string;
+    description?: string | undefined;
+    questions: {
+      questionText: string;
+      options: string[];
+      correctAnswer: string;
+    }[];
+    createdBy?: Types.ObjectId | undefined;
+    createdAt: Date;
+    updatedAt: Date;
+  }> &
+    Required<{
+      _id: Types.ObjectId;
+    }> & {
+      __v: number;
+    }
+> {
   await dbConnect();
 
   const session = await getServerSession(authOptions);

@@ -1,10 +1,11 @@
+import React from "react";
+import { BookOpen, Users, Brain } from "lucide-react";
+
 import { getPublicQuizzes } from "@/actions/quiz";
 import QuizCard from "@/components/QuizCard";
-import { Search, BookOpen, Trophy, Users, Brain } from "lucide-react";
-import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 
-export default async function QuizzesPage() {
+export default async function QuizzesPage(): Promise<React.JSX.Element> {
   const quizzes = await getPublicQuizzes(100);
 
   const totalQuestions = quizzes.reduce(

@@ -5,7 +5,6 @@ import {
   Trophy,
   ArrowRight,
   Brain,
-  Zap,
   Target,
   Sparkles,
 } from "lucide-react";
