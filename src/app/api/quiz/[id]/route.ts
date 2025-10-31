@@ -11,12 +11,14 @@ import { quizSchema } from "@/schemas/quiz";
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     await dbConnect();
 
-    const quiz = await QuizModel.findById(params.id).lean();
+    const { id } = await params; // ← Await params
+
+    const quiz = await QuizModel.findById(id).lean();
 
     if (!quiz) {
       return NextResponse.json({ error: "Quiz not found" }, { status: 404 });
@@ -45,7 +47,7 @@ export async function GET(
  */
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // Check authentication
@@ -67,6 +69,8 @@ export async function PUT(
 
     await dbConnect();
 
+    const { id } = await params; // ← Await params
+
     const body = await request.json();
 
     // Validate with Zod schema
@@ -76,7 +80,7 @@ export async function PUT(
       return NextResponse.json(
         {
           error: "Validation failed",
-          details: validationResult.error.errors,
+          details: validationResult.error.format(),
         },
         { status: 400 }
       );
@@ -87,7 +91,7 @@ export async function PUT(
     // Update quiz - ensure it belongs to the admin
     const quiz = await QuizModel.findOneAndUpdate(
       {
-        _id: params.id,
+        _id: id,
         createdBy: session.user._id, // Ensure ownership
       },
       quizData,
@@ -132,7 +136,7 @@ export async function PUT(
  */
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // Check authentication
@@ -154,9 +158,11 @@ export async function DELETE(
 
     await dbConnect();
 
+    const { id } = await params; // ← Await params
+
     // Delete quiz - ensure it belongs to the admin
     const quiz = await QuizModel.findOneAndDelete({
-      _id: params.id,
+      _id: id,
       createdBy: session.user._id, // Ensure ownership
     });
 
