@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
@@ -32,7 +32,7 @@ export default function QuizFormComponent({
   mode,
   quizId,
   initialData,
-}: QuizFormComponentProps) {
+}: QuizFormComponentProps): React.JSX.Element {
   const router = useRouter();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -61,11 +61,11 @@ export default function QuizFormComponent({
     }
   }, [initialData, form]);
 
-  function handleAddOption() {
+  function handleAddOption(): void {
     setOptionInputs((prev) => [...prev, ""]);
   }
 
-  function handleRemoveOption(idx: number) {
+  function handleRemoveOption(idx: number): void {
     if (optionInputs.length > 2) {
       setOptionInputs((opts) => opts.filter((_, i) => i !== idx));
       // Reset correct answer if it was the removed option
@@ -75,11 +75,11 @@ export default function QuizFormComponent({
     }
   }
 
-  function handleOptionChange(idx: number, value: string) {
+  function handleOptionChange(idx: number, value: string): void {
     setOptionInputs((opts) => opts.map((v, i) => (i === idx ? value : v)));
   }
 
-  function handleAddQuestion() {
+  function handleAddQuestion(): void {
     const validOptions = optionInputs.filter((opt) => opt.trim());
 
     if (
@@ -101,10 +101,9 @@ export default function QuizFormComponent({
     }
   }
 
-  async function submitQuiz(data: QuizForm) {
+  async function submitQuiz(data: QuizForm): Promise<void> {
     setIsSubmitting(true);
     try {
-      console.log(quizId);
       const url = mode === "create" ? "/api/quiz" : `/api/quiz/${quizId}`;
       const method = mode === "create" ? "POST" : "PUT";
 

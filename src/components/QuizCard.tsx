@@ -1,5 +1,5 @@
 "use client";
-
+import React from "react";
 import Link from "next/link";
 import { Clock, CheckCircle2, ArrowRight, Brain } from "lucide-react";
 
@@ -8,7 +8,11 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { PlainQuiz } from "@/actions/quiz";
 
-export default function QuizCard({ quiz }: { quiz: PlainQuiz }) {
+export default function QuizCard({
+  quiz,
+}: {
+  quiz: PlainQuiz;
+}): React.JSX.Element {
   const questionCount = quiz.questions?.length || 0;
   const estimatedTime = Math.max(1, Math.ceil(questionCount * 1.5)); // ~1.5 mins per question
 

@@ -70,6 +70,7 @@ export default function QuizTakingForm({
 
   const handleSubmit = (): void => {
     if (answeredCount < totalQuestions) {
+      // eslint-disable-next-line no-alert
       const confirm = window.confirm(
         `You have only answered ${answeredCount} out of ${totalQuestions} questions. Submit anyway?`
       );
