@@ -1,11 +1,11 @@
 import mongoose, { Schema, Document, Model, Types } from "mongoose";
 
-// Base User Model that store in MongoDB database --> Update fields as per your needs
 interface User extends Document {
   _id: Types.ObjectId;
   email: string;
   name: string;
   profilePhoto: string;
+  role: "admin" | "user";
   createdAt: Date;
   updatedAt: Date;
 }
@@ -23,6 +23,11 @@ export const UserSchema = new Schema<User>(
     profilePhoto: {
       type: String,
       required: [true, "Profile photo is required to store in Database!"],
+    },
+    role: {
+      type: String,
+      required: [true, "Role is required to store in Database!"],
+      enum: ["admin", "user"],
     },
   },
   { timestamps: true }

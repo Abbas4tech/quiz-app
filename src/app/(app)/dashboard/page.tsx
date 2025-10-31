@@ -1,5 +1,8 @@
-import React from "react";
-
-const Dashboard = (): React.JSX.Element => <div>Dashboard</div>;
-
-export default Dashboard;
+export default function AdminDashboard() {
+  return (
+    <div>
+      <h2 className="text-2xl font-bold mb-4">Dashboard</h2>
+      <p>Welcome to the admin panel</p>
+    </div>
+  );
+}

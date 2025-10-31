@@ -22,14 +22,17 @@ const verifyGoogleSignIn = async (
     const existingUser = await UserModel.findOne({ email: user.email });
     if (existingUser) {
       user._id = existingUser._id.toString();
+      user.role = existingUser.role;
     } else {
       const newUser = new UserModel({
         email: user.email,
-        name: user.name,
+        name: user.email?.split("@")[0],
         profilePhoto: user.image,
+        role: "admin",
       });
       const res = await newUser.save();
       user._id = res._id.toString();
+      user.role = res.role;
     }
     return true;
   } catch (er) {
