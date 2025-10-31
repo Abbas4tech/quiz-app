@@ -34,8 +34,8 @@ export default function Home(): React.JSX.Element {
                 Welcome to <span className="text-primary">Quiz Arena</span>
               </h1>
               <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl">
-                Wanna test your knowledge? Let's dive into a bunch of amazing
-                quizzes and challenge yourself!
+                Wanna test your knowledge? Let&apos;s dive into a bunch of
+                amazing quizzes and challenge yourself!
               </p>
             </div>
 

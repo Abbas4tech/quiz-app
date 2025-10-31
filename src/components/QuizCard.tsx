@@ -1,22 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { BookOpen, Clock, CheckCircle2, ArrowRight, Brain } from "lucide-react";
+import { Clock, CheckCircle2, ArrowRight, Brain } from "lucide-react";
 
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { PlainQuiz } from "@/actions/quiz";
 
-interface Quiz {
-  _id: string;
-  title: string;
-  description?: string;
-  createdAt: Date;
-  updatedAt: Date;
-  questions?: any[];
-}
-
-export default function QuizCard({ quiz }: { quiz: Quiz }) {
+export default function QuizCard({ quiz }: { quiz: PlainQuiz }) {
   const questionCount = quiz.questions?.length || 0;
   const estimatedTime = Math.max(1, Math.ceil(questionCount * 1.5)); // ~1.5 mins per question
 
