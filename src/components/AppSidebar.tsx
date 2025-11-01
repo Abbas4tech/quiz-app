@@ -1,9 +1,10 @@
 "use client";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { Plus, FileText, LogOut, Home } from "lucide-react";
-import { signOut } from "next-auth/react";
+import { Plus, FileText, Home } from "lucide-react";
 import { JSX } from "react";
+import { useSession } from "next-auth/react";
 
 import {
   Sidebar,
@@ -17,8 +18,10 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
+
+import AuthButton from "./AuthButton";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 
 export default function AppSidebar({
   quizzes,
@@ -26,6 +29,7 @@ export default function AppSidebar({
   quizzes: { _id: string; title: string }[];
 }): JSX.Element {
   const pathname = usePathname();
+  const { data: session } = useSession();
   return (
     <Sidebar>
       <SidebarHeader className="border-b px-6 py-4">
@@ -92,17 +96,31 @@ export default function AppSidebar({
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter className="border-t p-4">
-        <Button
-          onClick={() => signOut()}
-          variant="ghost"
-          className="w-full justify-start"
-          size="sm"
-        >
-          <LogOut className="h-4 w-4 mr-2" />
-          Logout
-        </Button>
-      </SidebarFooter>
+      {session?.user && (
+        <SidebarFooter className="border-t flex-row justify-between p-4">
+          <div className="w-full flex items-center gap-2">
+            <Image
+              src={session?.user.image as string}
+              width={30}
+              height={30}
+              className="rounded-full"
+              alt={session?.user.name as string}
+            />
+            {session?.user.name}
+          </div>
+
+          <Tooltip>
+            <TooltipTrigger>
+              <AuthButton
+                variant="ghost"
+                className="justify-start"
+                size="default"
+              />
+            </TooltipTrigger>
+            <TooltipContent>Logout</TooltipContent>
+          </Tooltip>
+        </SidebarFooter>
+      )}
     </Sidebar>
   );
 }

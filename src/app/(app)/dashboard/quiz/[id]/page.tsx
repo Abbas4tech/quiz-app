@@ -1,7 +1,20 @@
 import React from "react";
+import { Metadata } from "next";
 
 import { QuizForm } from "@/components";
 import { getQuizById } from "@/actions/quiz";
+
+export const generateMetadata = async ({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> => {
+  const { id } = await params;
+  const data = await getQuizById(id);
+  return {
+    title: `${data.title} | Quiz Arena`,
+  };
+};
 
 const EditQuizDetails = async ({
   params,

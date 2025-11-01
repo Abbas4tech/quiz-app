@@ -1,9 +1,14 @@
 import React from "react";
+import { Metadata } from "next";
 
 import { AppSidebar } from "@/components";
 import { getAllQuizzes } from "@/actions/quiz";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import ThemeToggle from "@/components/theme-toggle";
+
+export const generateMetadata = (): Metadata => ({
+  title: "Dashboard | Quiz Arena",
+});
 
 export default async function AdminLayout({
   children,

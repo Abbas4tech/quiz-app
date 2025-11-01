@@ -36,7 +36,7 @@ export default function QuizResults(): React.JSX.Element {
         <CardHeader className="text-center space-y-4 pb-6">
           <div className="mx-auto">
             <div
-              className={`flex h-36 w-36 items-center justify-center rounded-full text-5xl font-bold border-8 ${colorClass}`}
+              className={`flex h-36 w-36 items-center justify-center rounded-full text-4xl font-bold border-8 ${colorClass}`}
             >
               {score}%
             </div>
@@ -75,7 +75,7 @@ export default function QuizResults(): React.JSX.Element {
                 </p>
               </CardContent>
             </Card>
-            <Card className="bg-primary">
+            <Card className="bg-blue-50 border-blue-200">
               <CardContent className="pt-6 text-center">
                 <p className="text-3xl font-bold text-blue-600">{score}%</p>
                 <p className="text-sm text-blue-700 font-medium mt-1">Score</p>

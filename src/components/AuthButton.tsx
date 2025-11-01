@@ -1,32 +1,37 @@
 "use client";
 import { LogIn, LogOut } from "lucide-react";
 import { signIn, signOut, useSession } from "next-auth/react";
-import React from "react";
+import React, { forwardRef, ComponentProps } from "react";
 
 import { Button } from "./ui/button";
 
-const AuthButton: React.FC = () => {
-  const { status } = useSession();
+type AuthButtonProps = ComponentProps<typeof Button>;
 
-  if (typeof window === "undefined" || status === "loading") {
-    return null;
-  }
+const AuthButton = forwardRef<HTMLButtonElement, AuthButtonProps>(
+  (props, ref) => {
+    const { status } = useSession();
 
-  if (status === "unauthenticated") {
-    return (
-      <Button onClick={() => signIn("google")}>
-        <LogIn />
-        Login
-      </Button>
-    );
-  } else {
-    return (
-      <Button onClick={() => signOut()}>
-        <LogOut />
-        Logout
-      </Button>
-    );
+    if (typeof window === "undefined" || status === "loading") {
+      return null;
+    }
+
+    if (status === "unauthenticated") {
+      return (
+        <Button ref={ref} onClick={() => signIn("google")} {...props}>
+          <LogIn />
+          Login
+        </Button>
+      );
+    } else {
+      return (
+        <Button ref={ref} onClick={() => signOut()} {...props}>
+          <LogOut />
+        </Button>
+      );
+    }
   }
-};
+);
+
+AuthButton.displayName = "AuthButton";
 
 export default AuthButton;
