@@ -36,7 +36,7 @@ function QuizBuilderContent(): React.JSX.Element {
   );
 }
 
-export default function QuizBuilder({
+export function QuizBuilder({
   mode,
   quizId,
   initialData,

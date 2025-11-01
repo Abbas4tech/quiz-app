@@ -1,8 +1,8 @@
 import React from "react";
 import { Metadata } from "next";
 
-import { QuizForm } from "@/components";
 import { getQuizById } from "@/actions/quiz";
+import QuizBuilder from "@/components/QuizBuilder";
 
 export const generateMetadata = async ({
   params,
@@ -33,7 +33,11 @@ const EditQuizDetails = async ({
     })),
   };
   return (
-    <QuizForm quizId={data._id.toString()} initialData={quizData} mode="edit" />
+    <QuizBuilder
+      quizId={data._id.toString()}
+      initialData={quizData}
+      mode="edit"
+    />
   );
 };
 

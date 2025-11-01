@@ -1,7 +1,7 @@
 import React from "react";
 
-import { QuizForm } from "@/components";
+import QuizBuilder from "@/components/QuizBuilder";
 
 export default function CreateQuizPage(): React.JSX.Element {
-  return <QuizForm mode="create" />;
+  return <QuizBuilder mode="create" />;
 }

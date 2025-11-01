@@ -1,7 +1,7 @@
 import React, { PropsWithChildren } from "react";
 import { Metadata } from "next";
 
-import Header from "@/components/Header";
+import Header from "@/components/Navbar";
 
 export const generateMetadata = (): Metadata => ({
   title: "Quiz Arena",
