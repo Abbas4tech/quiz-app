@@ -3,9 +3,9 @@ import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
-import QuizTakingForm from "@/components/QuizTakingForm";
 import { getPublicQuizById } from "@/actions/quiz";
 import { Button } from "@/components/ui/button";
+import QuizTakingForm from "@/components/QuizTakingForm/";
 
 export default async function QuizPage({
   params,
@@ -39,7 +39,6 @@ export default async function QuizPage({
             </div>
           </div>
 
-          {/* Quiz Form */}
           <QuizTakingForm quiz={quiz} />
         </div>
       </div>
