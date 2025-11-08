@@ -88,7 +88,7 @@ export default function QuestionBuilder(): React.JSX.Element {
             className="mt-3"
             onClick={addOption}
           >
-            <Plus className="h-4 w-4 mr-2" />
+            <Plus className="h-4 w-4" />
             Add Option
           </Button>
         </div>

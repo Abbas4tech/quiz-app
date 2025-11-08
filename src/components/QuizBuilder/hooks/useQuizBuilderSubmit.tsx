@@ -1,34 +1,24 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { SubmitHandler } from "react-hook-form";
 
 import { QuizForm } from "@/schemas/quiz";
 
 import { useQuizBuilder } from "../context/QuizBuilderContext";
 
 interface useQuizBuilderSubmitReturn {
-  submitQuiz: (_data: {
-    title: string;
-    questions: {
-      questionText: string;
-      options: string[];
-      correctAnswer: string;
-    }[];
-    description?: string | undefined;
-  }) => Promise<void>;
-  isSubmitting: boolean;
+  submitQuiz: SubmitHandler<QuizForm>;
 }
 
 export function useQuizBuilderSubmit(): useQuizBuilderSubmitReturn {
   const router = useRouter();
   const { mode, quizId } = useQuizBuilder();
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const submitQuiz = useCallback(
     async (data: QuizForm) => {
-      setIsSubmitting(true);
       try {
         const url =
           mode === "create" || !quizId ? "/api/quiz" : `/api/quiz/${quizId}`;
@@ -59,7 +49,6 @@ export function useQuizBuilderSubmit(): useQuizBuilderSubmitReturn {
         console.error(error);
         toast.error("Failed to save quiz. Please try again.");
       } finally {
-        setIsSubmitting(false);
       }
     },
     [mode, quizId, router]
@@ -67,6 +56,5 @@ export function useQuizBuilderSubmit(): useQuizBuilderSubmitReturn {
 
   return {
     submitQuiz,
-    isSubmitting,
   };
 }

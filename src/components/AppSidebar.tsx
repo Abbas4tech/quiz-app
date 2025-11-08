@@ -21,7 +21,6 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 import AuthButton from "./AuthButton";
-import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 
 export default function AppSidebar({
   quizzes,
@@ -109,16 +108,11 @@ export default function AppSidebar({
             {session?.user.name}
           </div>
 
-          <Tooltip>
-            <TooltipTrigger>
-              <AuthButton
-                variant="ghost"
-                className="justify-start"
-                size="default"
-              />
-            </TooltipTrigger>
-            <TooltipContent>Logout</TooltipContent>
-          </Tooltip>
+          <AuthButton
+            variant="ghost"
+            className="justify-start"
+            size="default"
+          />
         </SidebarFooter>
       )}
     </Sidebar>
