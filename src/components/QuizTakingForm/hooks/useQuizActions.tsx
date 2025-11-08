@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 
 import { useQuiz } from "../context/QuizContext";
 
@@ -10,7 +10,6 @@ interface useQuizActionsReturns {
   goToQuestion: (_index: number) => void;
   submitQuiz: () => void;
   resetQuiz: () => void;
-  submitDialogOpen: boolean;
   onConfirmSubmit: () => void;
   onCancelSubmit: () => void;
 }
@@ -19,7 +18,6 @@ export function useQuizActions(): useQuizActionsReturns {
   const { dispatch, state, quiz } = useQuiz();
   const questions = quiz.questions || [];
   const totalQuestions = questions.length;
-  const [submitDialogOpen, setSubmitDialogOpen] = useState(false);
 
   const selectAnswer = useCallback(
     (answer: string) => {
@@ -51,7 +49,7 @@ export function useQuizActions(): useQuizActionsReturns {
 
     // Open dialog instead of window.confirm
     if (answeredCount < totalQuestions) {
-      setSubmitDialogOpen(true);
+      dispatch({ type: "SUBMIT_DIALOG_OPEN" });
       return;
     }
 
@@ -60,13 +58,13 @@ export function useQuizActions(): useQuizActionsReturns {
   }, [dispatch, state.answers, totalQuestions]);
 
   const handleConfirmSubmit = useCallback(() => {
-    setSubmitDialogOpen(false);
+    dispatch({ type: "SUBMIT_DIALOG_CLOSE" });
     dispatch({ type: "SUBMIT_QUIZ" });
   }, [dispatch]);
 
   const handleCancelSubmit = useCallback(() => {
-    setSubmitDialogOpen(false);
-  }, []);
+    dispatch({ type: "SUBMIT_DIALOG_CLOSE" });
+  }, [dispatch]);
 
   const resetQuiz = useCallback(() => {
     dispatch({ type: "RESET_QUIZ" });
@@ -79,7 +77,6 @@ export function useQuizActions(): useQuizActionsReturns {
     goToQuestion,
     submitQuiz,
     resetQuiz,
-    submitDialogOpen,
     onConfirmSubmit: handleConfirmSubmit,
     onCancelSubmit: handleCancelSubmit,
   };

@@ -14,6 +14,7 @@ interface QuizState {
   currentQuestionIndex: number;
   answers: Record<number, string>;
   showResults: boolean;
+  submitDialogOpen: boolean;
 }
 
 type QuizAction =
@@ -22,7 +23,9 @@ type QuizAction =
   | { type: "PREVIOUS_QUESTION" }
   | { type: "GO_TO_QUESTION"; payload: number }
   | { type: "SUBMIT_QUIZ" }
-  | { type: "RESET_QUIZ" };
+  | { type: "RESET_QUIZ" }
+  | { type: "SUBMIT_DIALOG_OPEN" }
+  | { type: "SUBMIT_DIALOG_CLOSE" };
 
 interface QuizContextValue {
   state: QuizState;
@@ -72,6 +75,19 @@ function quizReducer(state: QuizState, action: QuizAction): QuizState {
         currentQuestionIndex: 0,
         answers: {},
         showResults: false,
+        submitDialogOpen: false,
+      };
+
+    case "SUBMIT_DIALOG_OPEN":
+      return {
+        ...state,
+        submitDialogOpen: true,
+      };
+
+    case "SUBMIT_DIALOG_CLOSE":
+      return {
+        ...state,
+        submitDialogOpen: false,
       };
 
     default:
@@ -92,6 +108,7 @@ export function QuizProvider({
     currentQuestionIndex: 0,
     answers: {},
     showResults: false,
+    submitDialogOpen: false,
   });
 
   const value = useMemo(() => ({ state, quiz, dispatch }), [state, quiz]);

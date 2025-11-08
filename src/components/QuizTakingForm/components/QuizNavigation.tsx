@@ -8,15 +8,19 @@ import { Button } from "@/components/ui/button";
 import { SubmitQuizDialog } from ".";
 import { useQuizActions } from "../hooks/useQuizActions";
 import { useQuizData } from "../hooks/useQuizData";
+import { useQuiz } from "../context/QuizContext";
 
 export default function QuizNavigation(): React.JSX.Element {
   const { isFirstQuestion, isLastQuestion, totalQuestions, answeredCount } =
     useQuizData();
   const {
+    state: { submitDialogOpen },
+  } = useQuiz();
+
+  const {
     nextQuestion,
     previousQuestion,
     submitQuiz,
-    submitDialogOpen,
     onConfirmSubmit,
     onCancelSubmit,
   } = useQuizActions();
