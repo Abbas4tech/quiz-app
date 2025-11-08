@@ -2,8 +2,8 @@ import React from "react";
 import { BookOpen, Users, Brain } from "lucide-react";
 
 import { getPublicQuizzes } from "@/actions/quiz";
-import QuizCard from "@/components/QuizCard";
 import { Card, CardContent } from "@/components/ui/card";
+import { QuizListings } from "@/components/QuizListing/components/QuizListing";
 
 export default async function QuizzesPage(): Promise<React.JSX.Element> {
   const quizzes = await getPublicQuizzes(100);
@@ -74,17 +74,13 @@ export default async function QuizzesPage(): Promise<React.JSX.Element> {
         {/* Quiz Grid */}
         {quizzes.length > 0 ? (
           <div className="space-y-6">
-            <div className="flex items-center justify-between">
+            {/* <div className="flex items-center justify-between">
               <h2 className="text-3xl font-bold text-primary">
                 Choose Your Quiz
               </h2>
-            </div>
+            </div> */}
 
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {quizzes.map((quiz) => (
-                <QuizCard key={quiz._id} quiz={quiz} />
-              ))}
-            </div>
+            <QuizListings quizzes={quizzes} config={{ isPrivate: false }} />
           </div>
         ) : (
           <Card className="border-2 border-dashed">

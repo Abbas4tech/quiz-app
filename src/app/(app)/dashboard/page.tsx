@@ -1,10 +1,17 @@
 import React from "react";
 
-export default function AdminDashboard(): React.JSX.Element {
+import { getAllQuizzes } from "@/actions/quiz";
+import QuizListings from "@/components/QuizListing";
+
+export default async function AdminDashboard(): Promise<React.JSX.Element> {
+  const quizzes = await getAllQuizzes();
+
   return (
     <div>
-      <h2 className="text-2xl font-bold mb-4">Dashboard</h2>
-      <p>Welcome to the admin panel</p>
+      <QuizListings
+        quizzes={quizzes}
+        config={{ isPrivate: true, itemsPerPage: 5 }}
+      />
     </div>
   );
 }

@@ -16,6 +16,7 @@ export interface PlainQuiz {
   description?: string;
   createdAt: Date;
   updatedAt: Date;
+  createdBy: string;
   questions?: Array<{
     questionText: string;
     options: string[];
@@ -30,12 +31,7 @@ export interface PlainQuiz {
 export async function getAllQuizzes(
   limit = 50,
   skip = 0
-): Promise<
-  {
-    _id: string;
-    title: string;
-  }[]
-> {
+): Promise<PlainQuiz[]> {
   await dbConnect();
 
   const session = await getServerSession(authOptions);
@@ -44,15 +40,19 @@ export async function getAllQuizzes(
   }
 
   const quizzes = await QuizModel.find({ createdBy: session.user._id })
-    .select("title description createdAt updatedAt")
     .sort({ createdAt: -1 })
     .skip(skip)
     .limit(limit)
     .lean();
 
-  const res = quizzes.map((item) => ({
+  const res: PlainQuiz[] = quizzes.map((item) => ({
     _id: item._id.toString(),
     title: item.title,
+    description: item.description,
+    questions: item.questions,
+    createdAt: item.createdAt,
+    updatedAt: item.updatedAt,
+    createdBy: item.createdBy?.toString(),
   }));
 
   return res;

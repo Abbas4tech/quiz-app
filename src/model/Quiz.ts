@@ -11,7 +11,7 @@ export interface Quiz {
   title: string;
   description?: string;
   questions: Question[];
-  createdBy?: mongoose.Types.ObjectId;
+  createdBy: mongoose.Types.ObjectId;
   createdAt: Date;
   updatedAt: Date;
 }
