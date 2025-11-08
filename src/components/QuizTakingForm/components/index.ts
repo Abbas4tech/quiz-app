@@ -20,10 +20,15 @@ const QuizResults = dynamic(() =>
   import("./QuizResults").then((m) => m.default)
 );
 
+const SubmitQuizDialog = dynamic(() =>
+  import("./QuizSubmitDialog").then((m) => m.default)
+);
+
 export {
   QuestionCard,
   QuizNavigation,
   QuestionNavigator,
   QuizProgress,
   QuizResults,
+  SubmitQuizDialog,
 };

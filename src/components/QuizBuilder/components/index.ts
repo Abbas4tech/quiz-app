@@ -14,4 +14,14 @@ const QuestionPreview = dynamic(() =>
 
 const QuizTitle = dynamic(() => import("./QuizTitle").then((m) => m.default));
 
-export { BuilderActions, QuestionBuilder, QuestionPreview, QuizTitle };
+const SubmitDialog = dynamic(() =>
+  import("./SubmitModal").then((m) => m.default)
+);
+
+export {
+  BuilderActions,
+  QuestionBuilder,
+  QuestionPreview,
+  QuizTitle,
+  SubmitDialog,
+};
