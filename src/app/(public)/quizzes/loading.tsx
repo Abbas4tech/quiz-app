@@ -1,39 +1,72 @@
-import { JSX } from "react";
+"use client";
 
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
+import React, { useEffect, useState } from "react";
+import { Loader } from "lucide-react";
 
-export default function QuizListLoading(): JSX.Element {
-  return (
-    <div className="container mx-auto max-w-7xl py-8">
-      {/* Quiz Cards Grid Skeleton */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {Array.from({ length: 6 }).map((_, i) => (
-          <Card key={i} className="hover:shadow-lg transition-shadow">
-            <CardHeader className="space-y-2">
-              <Skeleton className="h-6 w-3/4" />
-              <Skeleton className="h-4 w-1/2" />
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-center justify-between">
-                <Skeleton className="h-5 w-24" />
-                <Skeleton className="h-5 w-20" />
-              </div>
-              <div className="flex items-center gap-2">
-                <Skeleton className="h-8 w-8 rounded-full" />
-                <div className="flex-1">
-                  <Skeleton className="h-4 w-24 mb-1" />
-                  <Skeleton className="h-3 w-32" />
-                </div>
-              </div>
-              <div className="flex gap-2">
-                <Skeleton className="h-9 flex-1" />
-                <Skeleton className="h-9 w-9" />
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+const messages = [
+  "Buckle up!!",
+  "Hang on... We are on the way",
+  "Loading awesomeness...",
+  "Almost there...",
+  "Fueling up the engine...",
+  "Hold tight!",
+  "Getting everything ready...",
+  "One moment please...",
+  "Magic in progress...",
+  "Brewing something special...",
+  "Stay tuned...",
+  "Powering up...",
+  "Just a sec...",
+  "Charging up...",
+  "Get ready...",
+];
+
+interface LoadingScreenProps {
+  fullScreen?: boolean;
+  message?: string;
+}
+
+export default function LoadingScreen({
+  fullScreen = false,
+  message,
+}: LoadingScreenProps): React.JSX.Element {
+  const [randomMessage, setRandomMessage] = useState<string>("");
+
+  useEffect(() => {
+    setRandomMessage(messages[Math.floor(Math.random() * messages.length)]);
+  }, []);
+
+  const displayMessage = message || randomMessage;
+
+  if (fullScreen) {
+    return (
+      <div className="fixed inset-0 bg-white flex items-center justify-center z-50">
+        <div className="flex flex-col items-center gap-4">
+          <Loader className="h-24 w-24 text-primary animate-spin" />
+          <p className="text-lg font-bold dark:text-slate-300">
+            {displayMessage}
+          </p>
+        </div>
       </div>
+    );
+  }
+
+  // Inline loading component
+  return (
+    <div className="flex flex-col items-center gap-3 py-8 my-32">
+      <Loader className="h-24 w-24 text-primary animate-spin" />
+      <p className="text-lg font-bold dark:text-slate-300">{displayMessage}</p>
+    </div>
+  );
+}
+
+export function LoadingSpinner(): React.JSX.Element {
+  return (
+    <div className="flex items-center gap-2">
+      <Loader className="h-5 w-5 text-primary animate-spin" />
+      <span className="text-sm font-medium text-slate-600 dark:text-slate-300">
+        Loading...
+      </span>
     </div>
   );
 }
