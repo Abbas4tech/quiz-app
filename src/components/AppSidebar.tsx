@@ -93,7 +93,7 @@ export default function AppSidebar({
             <span>Recent Quizzes</span>
           </SidebarGroupLabel>
           <SidebarGroupContent>
-            <ScrollArea className="h-[400px]">
+            <ScrollArea className="h-[300px]">
               <SidebarMenu>
                 {recentlyModifiedQuizzes.map((quiz) => (
                   <SidebarMenuItem key={quiz._id}>

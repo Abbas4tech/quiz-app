@@ -18,6 +18,7 @@ export function QuizSearch(): React.JSX.Element {
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
         className="pl-10"
+        type="search"
       />
     </div>
   );

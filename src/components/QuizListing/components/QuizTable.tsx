@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Trash2, Edit2, Play } from "lucide-react";
+import { Trash2, PenBoxIcon, Play } from "lucide-react";
 import Link from "next/link";
 
 import {
@@ -95,7 +95,7 @@ export function QuizTable(): React.JSX.Element {
                       <Button variant="outline" asChild title="Edit Quiz">
                         <Link href={`${config.editBasePath}/${quiz._id}`}>
                           Edit
-                          <Edit2 className="h-4 w-4" />
+                          <PenBoxIcon className="h-4 w-4" />
                         </Link>
                       </Button>
                       <Button

@@ -11,7 +11,7 @@ export default async function QuizPage(): Promise<React.JSX.Element> {
       <QuizListings
         title="Manage your Quizzes"
         quizzes={quizzes}
-        config={{ isPrivate: true, itemsPerPage: 5 }}
+        config={{ isPrivate: true, itemsPerPage: 9 }}
       />
     </div>
   );

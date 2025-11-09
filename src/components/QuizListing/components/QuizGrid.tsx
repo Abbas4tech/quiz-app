@@ -1,13 +1,13 @@
 "use client";
 
-import React, { useCallback, useTransition } from "react";
+import React, { useCallback, useState } from "react";
 import {
   Trash2,
-  Edit2,
   ArrowRight,
   Brain,
   CheckCircle2,
   Clock,
+  PenBoxIcon,
 } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
@@ -22,33 +22,40 @@ import { useQuizListing } from "../context/QuizListingContext";
 
 export function QuizGrid(): React.JSX.Element {
   const { paginatedQuizzes, config } = useQuizListing();
-  const [isPending, startTransition] = useTransition();
 
-  const handleDelete = useCallback(
-    async (quizId: string): Promise<void> =>
-      startTransition(async () => {
-        try {
-          await deleteQuiz(quizId);
+  const [deletingIds, setDeletingIds] = useState<Set<string>>(new Set());
 
-          toast.success("Quiz deleted successfully");
+  const handleDelete = useCallback(async (quizId: string): Promise<void> => {
+    setDeletingIds((prev) => new Set(prev).add(quizId.toString()));
 
-          await new Promise((resolve) => setTimeout(resolve, 300));
-        } catch (error) {
-          console.error("Error deleting quiz:", error);
-          toast.error("Failed to delete quiz");
-        }
-      }),
-    []
-  );
+    try {
+      await deleteQuiz(quizId);
+      toast.success("Quiz deleted successfully");
+
+      await new Promise((resolve) => setTimeout(resolve, 300));
+    } catch (error) {
+      console.error("Error deleting quiz:", error);
+      toast.error("Failed to delete quiz");
+
+      setDeletingIds((prev) => {
+        const newSet = new Set(prev);
+        newSet.delete(quizId.toString());
+        return newSet;
+      });
+    }
+  }, []);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {paginatedQuizzes.map((quiz) => {
-        if (isPending) {
+        const quizId = quiz._id.toString();
+        const isDeleting = deletingIds.has(quizId);
+
+        if (isDeleting) {
           return (
             <Card
-              key={quiz._id.toString()}
-              className="group relative overflow-hidden transition-all duration-300 opacity-50 scale-95 border-2"
+              key={quizId}
+              className="group relative overflow-hidden transition-all duration-300 border-2"
             >
               <CardHeader className="relative pb-3">
                 <div className="flex items-start justify-between gap-2">
@@ -80,7 +87,7 @@ export function QuizGrid(): React.JSX.Element {
           );
         }
 
-        // Normal card
+        // Normal card (not deleting)
         const questionCount = quiz.questions?.length || 0;
         const estimatedTime = Math.max(1, Math.ceil(questionCount * 1.5));
 
@@ -95,7 +102,7 @@ export function QuizGrid(): React.JSX.Element {
 
         return (
           <Card
-            key={quiz._id.toString()}
+            key={quizId}
             className="group relative overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-[1.02] border-2 hover:border-primary/50"
           >
             <div className="absolute inset-0 group-hover:opacity-100 transition-opacity" />
@@ -140,15 +147,16 @@ export function QuizGrid(): React.JSX.Element {
                   >
                     <Link
                       className="flex"
-                      href={`${config.editBasePath}/${quiz._id}`}
+                      href={`${config.editBasePath}/${quizId}`}
                     >
-                      <Edit2 className="h-4 w-4" />
+                      <PenBoxIcon className="h-4 w-4" />
                       Edit
                     </Link>
                   </Button>
                   <Button
                     variant="destructive"
-                    onClick={() => handleDelete(quiz._id)}
+                    onClick={() => handleDelete(quizId)}
+                    disabled={isDeleting}
                     className="flex-1 items-center w-full"
                   >
                     <Trash2 className="h-4 w-4" />
@@ -157,7 +165,7 @@ export function QuizGrid(): React.JSX.Element {
                 </div>
               ) : (
                 <Button asChild className="w-full group/btn shadow-md">
-                  <Link href={`${config.playBasePath}/${quiz._id}`}>
+                  <Link href={`${config.playBasePath}/${quizId}`}>
                     <span className="flex items-center justify-center gap-2">
                       {config.isPrivate ? "Preview Quiz" : "Start Quiz"}
                       <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
