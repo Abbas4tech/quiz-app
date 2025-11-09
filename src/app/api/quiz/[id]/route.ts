@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { revalidatePath } from "next/cache"; // ✅ Add this import
+import { revalidatePath } from "next/cache";
 
 import dbConnect from "@/db/connection";
 import QuizModel from "@/model/Quiz";

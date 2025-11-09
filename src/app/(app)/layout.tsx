@@ -5,6 +5,8 @@ import { AppSidebar } from "@/components";
 import { getAllQuizzes, recentlyModifiedQuizzes } from "@/actions/quiz";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import ThemeToggle from "@/components/theme-toggle";
+import { DynamicBreadcrumb } from "@/components/Breadcrumb";
+import { Separator } from "@/components/ui/separator";
 
 export const generateMetadata = (): Metadata => ({
   title: "Dashboard | Quiz Arena",
@@ -23,8 +25,11 @@ export default async function AdminLayout({
         <AppSidebar recentlyModifiedQuizzes={rec} quizzes={quizzes} />
         <main className="flex-1 overflow-auto">
           <div className="sticky top-0 z-10 flex h-14 items-center gap-4 border-b bg-background px-6">
-            <SidebarTrigger />
-            <h1 className="text-lg font-semibold">Quiz Management</h1>
+            <div className="flex gap-4 h-full items-center">
+              <SidebarTrigger />
+              <Separator orientation="vertical" className="h-1/3!" />
+              <DynamicBreadcrumb />
+            </div>
             <ThemeToggle className="ml-auto" />
           </div>
           <div className="p-6">{children}</div>

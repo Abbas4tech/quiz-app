@@ -2,6 +2,7 @@
 import { FlattenMaps, Types } from "mongoose";
 import { getServerSession } from "next-auth";
 import { notFound, redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 
 import { authOptions } from "@/app/api/auth/options";
 import QuizModel from "@/model/Quiz";
@@ -294,6 +295,15 @@ export async function deleteQuiz(id: string): Promise<void> {
     if (!quiz) {
       notFound();
     }
+
+    // ✅ CRITICAL: Revalidate the cache
+    // This tells Next.js to refresh the data for these routes
+    revalidatePath("/dashboard");
+    revalidatePath("/quizzes");
+
+    // Optional: Also revalidate any detail pages
+    revalidatePath("/dashboard/quiz/[id]");
+    revalidatePath("/quiz/[id]");
   } catch (error) {
     console.error("Error deleting quiz:", error);
     throw new Error("Failed to delete quiz");

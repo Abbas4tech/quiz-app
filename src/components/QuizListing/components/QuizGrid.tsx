@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useCallback, useTransition } from "react";
 import {
   Trash2,
   Edit2,
@@ -10,28 +10,80 @@ import {
   Clock,
 } from "lucide-react";
 import Link from "next/link";
+import { toast } from "sonner";
 
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
 import { deleteQuiz } from "@/actions/quiz";
 
 import { useQuizListing } from "../context/QuizListingContext";
 
 export function QuizGrid(): React.JSX.Element {
   const { paginatedQuizzes, config } = useQuizListing();
+  const [isPending, startTransition] = useTransition();
 
-  const handleDelete = async (quizId: string): Promise<void> => {
-    await deleteQuiz(quizId);
-  };
+  const handleDelete = useCallback(
+    async (quizId: string): Promise<void> =>
+      startTransition(async () => {
+        try {
+          await deleteQuiz(quizId);
+
+          toast.success("Quiz deleted successfully");
+
+          await new Promise((resolve) => setTimeout(resolve, 300));
+        } catch (error) {
+          console.error("Error deleting quiz:", error);
+          toast.error("Failed to delete quiz");
+        }
+      }),
+    []
+  );
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {paginatedQuizzes.map((quiz) => {
-        const questionCount = quiz.questions?.length || 0;
-        const estimatedTime = Math.max(1, Math.ceil(questionCount * 1.5)); // ~1.5 mins per question
+        if (isPending) {
+          return (
+            <Card
+              key={quiz._id.toString()}
+              className="group relative overflow-hidden transition-all duration-300 opacity-50 scale-95 border-2"
+            >
+              <CardHeader className="relative pb-3">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="flex-1">
+                    <Skeleton className="h-6 w-3/4 mb-2" />
+                    <Skeleton className="h-4 w-full" />
+                  </div>
+                  <Skeleton className="rounded-full h-12 w-12" />
+                </div>
+              </CardHeader>
 
-        // Determine difficulty based on question count
+              <CardContent className="relative space-y-4">
+                <div className="flex flex-wrap gap-2">
+                  <Skeleton className="h-6 w-32" />
+                  <Skeleton className="h-6 w-24" />
+                  <Skeleton className="h-6 w-20" />
+                </div>
+
+                {config.isPrivate ? (
+                  <div className="flex w-full items-center gap-2">
+                    <Skeleton className="flex-1 h-10" />
+                    <Skeleton className="flex-1 h-10" />
+                  </div>
+                ) : (
+                  <Skeleton className="w-full h-10" />
+                )}
+              </CardContent>
+            </Card>
+          );
+        }
+
+        // Normal card
+        const questionCount = quiz.questions?.length || 0;
+        const estimatedTime = Math.max(1, Math.ceil(questionCount * 1.5));
+
         const difficulty =
           questionCount > 15 ? "Hard" : questionCount > 8 ? "Medium" : "Easy";
         const difficultyColor =
@@ -40,6 +92,7 @@ export function QuizGrid(): React.JSX.Element {
             : difficulty === "Medium"
             ? "bg-yellow-100 text-yellow-700 border-yellow-200"
             : "bg-green-100 text-green-700 border-green-200";
+
         return (
           <Card
             key={quiz._id.toString()}
