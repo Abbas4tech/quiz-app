@@ -58,6 +58,35 @@ export async function getAllQuizzes(
   return res;
 }
 
+export async function recentlyModifiedQuizzes(limit = 5): Promise<
+  {
+    _id: string;
+    title: string;
+    updatedAt: Date;
+  }[]
+> {
+  await dbConnect();
+
+  const session = await getServerSession(authOptions);
+  if (!session?.user) {
+    redirect("/");
+  }
+
+  const quizzes = await QuizModel.find({ createdBy: session.user._id })
+    .select("title updatedAt")
+    .sort({ updatedAt: -1 })
+    .limit(limit)
+    .lean();
+
+  const res = quizzes.map((item) => ({
+    _id: item._id.toString(),
+    title: item.title,
+    updatedAt: item.updatedAt,
+  }));
+
+  return res;
+}
+
 /**
  * Fetch all public quizzes (No authentication required).
  * Returns all quizzes with full details for public viewing.
