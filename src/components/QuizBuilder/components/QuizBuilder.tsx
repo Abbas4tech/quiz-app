@@ -62,7 +62,7 @@ export function QuizBuilder({
           <h1 className="text-3xl font-bold">
             {mode === "create" ? "Create New Quiz" : "Edit Quiz"}
           </h1>
-          <p className="text-slate-600 mt-2">
+          <p className="text-muted-foreground mt-1">
             {mode === "create"
               ? "Build your MCQ quiz with multiple questions and options"
               : "Update your quiz details and questions"}

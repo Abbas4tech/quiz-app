@@ -9,6 +9,7 @@ export default async function AdminDashboard(): Promise<React.JSX.Element> {
   return (
     <div>
       <QuizListings
+        title="Manage your Quizzes"
         quizzes={quizzes}
         config={{ isPrivate: true, itemsPerPage: 5 }}
       />

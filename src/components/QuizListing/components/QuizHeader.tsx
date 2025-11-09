@@ -21,7 +21,7 @@ export function QuizHeader({
 
   return (
     <div className="space-y-2">
-      <h1 className="text-3xl font-bold">{title}</h1>
+      <h1 className="text-3xl capitalize font-bold">{title}</h1>
       <p className="text-slate-600">{description || defaultDescription}</p>
     </div>
   );

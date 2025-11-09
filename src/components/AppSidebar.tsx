@@ -1,8 +1,7 @@
 "use client";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { Plus, FileText, Home } from "lucide-react";
+import { Plus, FileText, Puzzle } from "lucide-react";
 import { JSX } from "react";
 import { useSession } from "next-auth/react";
 
@@ -20,7 +19,7 @@ import {
 } from "@/components/ui/sidebar";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
-import AuthButton from "./AuthButton";
+import NavUser from "./NavUser";
 
 export default function AppSidebar({
   quizzes,
@@ -45,13 +44,13 @@ export default function AppSidebar({
 
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Navigation</SidebarGroupLabel>
+          <SidebarGroupLabel>Platform</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild isActive={pathname === "/dashboard"}>
                   <Link href="/dashboard">
-                    <Home className="h-4 w-4" />
+                    <Puzzle className="h-4 w-4" />
                     <span>Dashboard</span>
                   </Link>
                 </SidebarMenuButton>
@@ -72,7 +71,10 @@ export default function AppSidebar({
         </SidebarGroup>
 
         <SidebarGroup>
-          <SidebarGroupLabel>Quizzes ({quizzes.length})</SidebarGroupLabel>
+          <SidebarGroupLabel className="flex gap-1">
+            <Puzzle className="w-1 h-1" />
+            <span>Quizzes ({quizzes.length})</span>
+          </SidebarGroupLabel>
           <SidebarGroupContent>
             <ScrollArea className="h-[400px]">
               <SidebarMenu>
@@ -95,26 +97,15 @@ export default function AppSidebar({
         </SidebarGroup>
       </SidebarContent>
 
-      {session?.user && (
-        <SidebarFooter className="border-t flex-row justify-between p-4">
-          <div className="w-full flex items-center gap-2">
-            <Image
-              src={session?.user.image as string}
-              width={30}
-              height={30}
-              className="rounded-full"
-              alt={session?.user.name as string}
-            />
-            {session?.user.name}
-          </div>
-
-          <AuthButton
-            variant="ghost"
-            className="justify-start"
-            size="default"
-          />
-        </SidebarFooter>
-      )}
+      <SidebarFooter className="border-t flex-row justify-between p-4">
+        <NavUser
+          user={{
+            avatar: session?.user.image as string,
+            email: session?.user.email as string,
+            name: session?.user.name as string,
+          }}
+        />
+      </SidebarFooter>
     </Sidebar>
   );
 }

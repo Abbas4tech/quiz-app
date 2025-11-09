@@ -1,7 +1,10 @@
 "use client";
 
 import React from "react";
-import { Search } from "lucide-react";
+import { Plus, Search } from "lucide-react";
+import Link from "next/link";
+
+import { Button } from "@/components/ui/button";
 
 import { useQuizListing } from "../context/QuizListingContext";
 
@@ -23,15 +26,20 @@ export function EmptyState({
   if (totalQuizzes === 0) {
     return (
       <div className="text-center py-12">
-        <Search className="h-12 w-12 text-slate-300 mx-auto mb-4" />
-        <h3 className="text-lg font-semibold text-slate-900 mb-2">
-          No quizzes available
-        </h3>
-        <p className="text-slate-600">
+        <Search className="h-12 w-12 mx-auto mb-4" />
+        <h3 className="text-lg font-semibold mb-2">No quizzes available</h3>
+        <p className="text-muted-foreground">
           {isPrivate
             ? "Create your first quiz to get started"
             : "Check back soon for more quizzes"}
         </p>
+
+        <Button asChild className="mt-4">
+          <Link href={"/dashboard/quiz/new"}>
+            <Plus />
+            Create New Quiz
+          </Link>
+        </Button>
       </div>
     );
   }
