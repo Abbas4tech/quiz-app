@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 
 import { useQuizListing } from "../context/QuizListingContext";
 
-export function QuizPagination(): React.JSX.Element | null {
+export default function QuizPagination(): React.JSX.Element | null {
   const {
     currentPage,
     totalPages,

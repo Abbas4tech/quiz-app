@@ -7,12 +7,14 @@ import {
   QuizListingProvider,
   useQuizListing,
 } from "../context/QuizListingContext";
-import { EmptyState } from "./EmptyState";
-import { QuizGrid } from "./QuizGrid";
-import { QuizHeader } from "./QuizHeader";
-import { QuizPagination } from "./QuizPagination";
-import { QuizTable } from "./QuizTable";
-import { QuizToolbar } from "./QuizToolbar";
+import {
+  QuizHeader,
+  EmptyState,
+  QuizGrid,
+  QuizPagination,
+  QuizTable,
+  QuizToolbar,
+} from ".";
 
 interface QuizListingConfig {
   isPrivate?: boolean;

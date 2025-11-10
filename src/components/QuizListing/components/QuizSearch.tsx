@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 
 import { useQuizListing } from "../context/QuizListingContext";
 
-export function QuizSearch(): React.JSX.Element {
+export default function QuizSearch(): React.JSX.Element {
   const { searchQuery, setSearchQuery } = useQuizListing();
 
   return (

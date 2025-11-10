@@ -88,37 +88,39 @@ export default function AppSidebar({
           </SidebarGroupContent>
         </SidebarGroup>
 
-        <SidebarGroup>
-          <SidebarGroupLabel className="flex gap-1">
-            <span>Recent Quizzes</span>
-          </SidebarGroupLabel>
-          <SidebarGroupContent>
-            <ScrollArea className="h-[300px]">
-              <SidebarMenu>
-                {recentlyModifiedQuizzes.map((quiz) => (
-                  <SidebarMenuItem key={quiz._id}>
-                    <SidebarMenuButton
-                      asChild
-                      size={"lg"}
-                      isActive={pathname === `/dashboard/quiz/${quiz._id}`}
-                    >
-                      <Link href={`/dashboard/quiz/${quiz._id}`}>
-                        <FileText className="h-4 w-4 mb-3" />
-                        <p className="truncate flex flex-col">
-                          {quiz.title}
+        {recentlyModifiedQuizzes.length > 0 && (
+          <SidebarGroup>
+            <SidebarGroupLabel className="flex gap-1">
+              <span>Recent Quizzes</span>
+            </SidebarGroupLabel>
+            <SidebarGroupContent>
+              <ScrollArea className="h-[300px]">
+                <SidebarMenu>
+                  {recentlyModifiedQuizzes.map((quiz) => (
+                    <SidebarMenuItem key={quiz._id}>
+                      <SidebarMenuButton
+                        asChild
+                        size={"lg"}
+                        isActive={pathname === `/dashboard/quiz/${quiz._id}`}
+                      >
+                        <Link href={`/dashboard/quiz/${quiz._id}`}>
+                          <FileText className="h-4 w-4 mb-3" />
+                          <p className="truncate flex flex-col">
+                            {quiz.title}
 
-                          <span className="text-xs text-muted-foreground">
-                            {getUpdatedTimeString(quiz.updatedAt)}
-                          </span>
-                        </p>
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </ScrollArea>
-          </SidebarGroupContent>
-        </SidebarGroup>
+                            <span className="text-xs text-muted-foreground">
+                              {getUpdatedTimeString(quiz.updatedAt)}
+                            </span>
+                          </p>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))}
+                </SidebarMenu>
+              </ScrollArea>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        )}
       </SidebarContent>
 
       <SidebarFooter className="border-t flex-row justify-between p-4">

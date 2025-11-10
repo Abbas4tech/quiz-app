@@ -12,7 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import ThemeToggle from "@/components/theme-toggle";
+import ThemeToggle from "@/components/ThemeToggle";
 
 export default function Home(): React.JSX.Element {
   return (

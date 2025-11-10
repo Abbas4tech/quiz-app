@@ -1,6 +1,6 @@
 import React from "react";
 
-import ThemeToggle from "./theme-toggle";
+import ThemeToggle from "./ThemeToggle";
 import AuthButton from "./AuthButton";
 
 const Header = (): React.JSX.Element => (

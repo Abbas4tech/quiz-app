@@ -20,7 +20,7 @@ import { deleteQuiz } from "@/actions/quiz";
 
 import { useQuizListing } from "../context/QuizListingContext";
 
-export function QuizGrid(): React.JSX.Element {
+export default function QuizGrid(): React.JSX.Element {
   const { paginatedQuizzes, config } = useQuizListing();
 
   const [deletingIds, setDeletingIds] = useState<Set<string>>(new Set());

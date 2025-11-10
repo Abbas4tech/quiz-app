@@ -1,5 +1,7 @@
 import mongoose, { Schema, Document, Model, Types } from "mongoose";
 
+import { Permissions } from "@/types/permissions";
+
 interface User extends Document {
   _id: Types.ObjectId;
   email: string;
@@ -8,6 +10,7 @@ interface User extends Document {
   role: "admin" | "user";
   createdAt: Date;
   updatedAt: Date;
+  permissions: Permissions;
 }
 
 export const UserSchema = new Schema<User>(
@@ -28,6 +31,10 @@ export const UserSchema = new Schema<User>(
       type: String,
       required: [true, "Role is required to store in Database!"],
       enum: ["admin", "user"],
+    },
+    permissions: {
+      type: [String],
+      required: [true, "Permissions is required to store in Database!"],
     },
   },
   { timestamps: true }

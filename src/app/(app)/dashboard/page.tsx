@@ -8,7 +8,7 @@ export default function DashboardPage(): React.JSX.Element {
     <div className="space-y-8">
       <div className="space-y-2">
         <h1 className="text-3xl font-bold">Dashboard</h1>
-        <p className="text-slate-600">
+        <p className="text-muted-foreground">
           Manage your quizzes, profile, and account settings all in one place
         </p>
       </div>

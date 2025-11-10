@@ -4,7 +4,7 @@ import { Metadata } from "next";
 import { AppSidebar } from "@/components";
 import { getAllQuizzes, recentlyModifiedQuizzes } from "@/actions/quiz";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import ThemeToggle from "@/components/theme-toggle";
+import ThemeToggle from "@/components/ThemeToggle";
 import { DynamicBreadcrumb } from "@/components/Breadcrumb";
 import { Separator } from "@/components/ui/separator";
 

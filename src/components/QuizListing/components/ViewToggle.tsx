@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 
 import { useQuizListing } from "../context/QuizListingContext";
 
-export function ViewToggle(): React.JSX.Element {
+export default function ViewToggle(): React.JSX.Element {
   const { viewType, setViewType } = useQuizListing();
 
   return (

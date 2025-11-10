@@ -13,11 +13,11 @@ interface QuizHeaderProps {
   description?: string;
 }
 
-export function QuizHeader({
+export default function QuizHeader({
   title = "Available Quizzes",
   description,
 }: QuizHeaderProps): React.JSX.Element | null {
-  const { filteredQuizzes, searchQuery } = useQuizListing();
+  const { filteredQuizzes, searchQuery, config } = useQuizListing();
 
   const defaultDescription = `${filteredQuizzes.length} quiz${
     filteredQuizzes.length !== 1 ? "es" : ""
@@ -27,16 +27,20 @@ export function QuizHeader({
     <div className="flex justify-between items-center space-y-2">
       <div className="space-y-2">
         <h1 className="text-3xl capitalize font-bold">{title}</h1>
-        <p className="text-slate-600">{description || defaultDescription}</p>
+        <p className="text-muted-foreground">
+          {description || defaultDescription}
+        </p>
       </div>
-      <div>
-        <Button variant={"outline"} asChild>
-          <Link href={"/dashboard/quiz/new"}>
-            <Plus />
-            Create New Quiz
-          </Link>
-        </Button>
-      </div>
+      {config.isPrivate && (
+        <div>
+          <Button variant={"outline"} asChild>
+            <Link href={"/dashboard/quiz/new"}>
+              <Plus />
+              Create New Quiz
+            </Link>
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

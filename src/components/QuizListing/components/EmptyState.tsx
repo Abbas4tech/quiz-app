@@ -12,7 +12,7 @@ interface EmptyStateProps {
   isPrivate?: boolean;
 }
 
-export function EmptyState({
+export default function EmptyState({
   isPrivate = false,
 }: EmptyStateProps): React.JSX.Element | null {
   const { filteredQuizzes, searchQuery, totalQuizzes } = useQuizListing();
