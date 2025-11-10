@@ -3,16 +3,20 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Save, Loader2 } from "lucide-react";
 
 import { Form } from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
 import { QuizForm, quizSchema } from "@/schemas/quiz";
 
-import { BuilderActions, QuestionBuilder, QuestionPreview, QuizTitle } from ".";
 import {
   QuizBuilderProvider,
   useQuizBuilder,
 } from "../context/QuizBuilderContext";
 import { useQuizBuilderSubmit } from "../hooks/useQuizBuilderSubmit";
+import { QuizDetailsForm } from "./QuizDetailsForm";
+import { QuestionBuilderForm } from "./QuestionBuilderForm";
+import { QuizLivePreview } from "./QuizLivePreview";
 
 interface QuizBuilderProps {
   mode: "create" | "edit";
@@ -23,14 +27,75 @@ interface QuizBuilderProps {
 function QuizBuilderContent(): React.JSX.Element {
   const { submitQuiz } = useQuizBuilderSubmit();
   const { form } = useQuizBuilder();
+  const { isSubmitting, isValid, isDirty } = form.formState;
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(submitQuiz)} className="space-y-6">
-        <QuizTitle />
-        <QuestionBuilder />
-        <QuestionPreview />
-        <BuilderActions />
+      <form
+        onSubmit={form.handleSubmit(submitQuiz)}
+        className="h-full flex flex-col"
+      >
+        {/* Fixed Header with Actions */}
+        <div className="sticky top-0 z-10 bg-background border-b px-6 py-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl font-bold">
+                {form.getValues("title") || "Untitled Quiz"}
+              </h1>
+              <p className="text-sm text-muted-foreground">
+                {form.watch("questions")?.length || 0} questions added
+              </p>
+            </div>
+            <div className="flex gap-3">
+              <Button
+                type="button"
+                variant="outline"
+                disabled={isSubmitting}
+                onClick={() => window.history.back()}
+              >
+                Cancel
+              </Button>
+              <Button
+                type="submit"
+                disabled={!(isValid && isDirty) || isSubmitting}
+                className="min-w-[150px]"
+              >
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    Saving...
+                  </>
+                ) : (
+                  <>
+                    <Save className="h-4 w-4" />
+                    Save Quiz
+                  </>
+                )}
+              </Button>
+            </div>
+          </div>
+        </div>
+
+        {/* Split View Container */}
+        <div className="flex-1 flex overflow-hidden">
+          {/* Left Side - Form */}
+          <div className="w-1/2 overflow-y-auto border-r">
+            <div className="p-6 space-y-6">
+              {/* Quiz Details */}
+              <QuizDetailsForm />
+
+              {/* Question Builder */}
+              <QuestionBuilderForm />
+            </div>
+          </div>
+
+          {/* Right Side - Live Preview */}
+          <div className="w-1/2 overflow-y-auto bg-slate-50 dark:bg-slate-900/20">
+            <div className="p-6">
+              <QuizLivePreview />
+            </div>
+          </div>
+        </div>
       </form>
     </Form>
   );
@@ -45,8 +110,10 @@ export function QuizBuilder({
     resolver: zodResolver(quizSchema),
     defaultValues: initialData || {
       title: "",
+      description: "",
       questions: [],
     },
+    mode: "onChange",
   });
 
   useEffect(() => {
@@ -56,23 +123,10 @@ export function QuizBuilder({
   }, [initialData, form]);
 
   return (
-    <div className="md:py-8">
-      <div className="max-w-4xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold">
-            {mode === "create" ? "Create New Quiz" : "Edit Quiz"}
-          </h1>
-          <p className="text-muted-foreground mt-1">
-            {mode === "create"
-              ? "Build your MCQ quiz with multiple questions and options"
-              : "Update your quiz details and questions"}
-          </p>
-        </div>
-
-        <QuizBuilderProvider form={form} mode={mode} quizId={quizId}>
-          <QuizBuilderContent />
-        </QuizBuilderProvider>
-      </div>
+    <div className="h-screen flex flex-col">
+      <QuizBuilderProvider form={form} mode={mode} quizId={quizId}>
+        <QuizBuilderContent />
+      </QuizBuilderProvider>
     </div>
   );
 }
