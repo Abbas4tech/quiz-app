@@ -18,7 +18,8 @@ export default function QuizHeader({
   title = "Available Quizzes",
   description,
 }: QuizHeaderProps): React.JSX.Element | null {
-  const { filteredQuizzes, searchQuery, config } = useQuizListing();
+  const { filteredQuizzes, searchQuery, config, totalQuizzes } =
+    useQuizListing();
 
   const defaultDescription = `${filteredQuizzes.length} quiz${
     filteredQuizzes.length !== 1 ? "es" : ""
@@ -32,16 +33,17 @@ export default function QuizHeader({
           {description || defaultDescription}
         </p>
       </div>
-      {config?.permissions?.includes(PERMISSIONS._WRITE) && (
-        <div>
-          <Button variant={"outline"} asChild>
-            <Link href={"/dashboard/quiz/new"}>
-              <Plus />
-              Create New Quiz
-            </Link>
-          </Button>
-        </div>
-      )}
+      {config?.permissions?.includes(PERMISSIONS._WRITE) &&
+        totalQuizzes > 0 && (
+          <div>
+            <Button variant={"outline"} asChild>
+              <Link href={"/dashboard/quiz/new"}>
+                <Plus />
+                Create New Quiz
+              </Link>
+            </Button>
+          </div>
+        )}
     </div>
   );
 }
