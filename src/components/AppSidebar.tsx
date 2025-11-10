@@ -30,7 +30,6 @@ import NavUser from "./NavUser";
 export default function AppSidebar({
   recentlyModifiedQuizzes,
 }: {
-  quizzes: { _id: string; title: string }[];
   recentlyModifiedQuizzes: {
     _id: string;
     title: string;

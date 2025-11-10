@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import { PlainQuiz } from "@/actions/quiz";
+import { Quiz } from "@/model/Quiz";
 
 import { useQuizData } from "../hooks/useQuizData";
 import {
@@ -31,11 +31,7 @@ function QuizContent(): React.JSX.Element {
   );
 }
 
-export function QuizTakingForm({
-  quiz,
-}: {
-  quiz: PlainQuiz;
-}): React.JSX.Element {
+export function QuizTakingForm({ quiz }: { quiz: Quiz }): React.JSX.Element {
   return (
     <QuizProvider quiz={quiz}>
       <QuizContent />

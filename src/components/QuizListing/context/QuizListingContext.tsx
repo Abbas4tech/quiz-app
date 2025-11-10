@@ -8,7 +8,7 @@ import React, {
   type ReactNode,
 } from "react";
 
-import { PlainQuiz } from "@/actions/quiz";
+import { Quiz } from "@/model/Quiz";
 
 interface QuizListingConfig {
   isPrivate?: boolean;
@@ -19,9 +19,9 @@ interface QuizListingConfig {
 
 interface QuizListingContextValue {
   // Data
-  quizzes: PlainQuiz[];
-  filteredQuizzes: PlainQuiz[];
-  paginatedQuizzes: PlainQuiz[];
+  quizzes: Quiz[];
+  filteredQuizzes: Quiz[];
+  paginatedQuizzes: Quiz[];
 
   // State
   searchQuery: string;
@@ -53,7 +53,7 @@ const QuizListingContext = createContext<QuizListingContextValue | undefined>(
 );
 
 interface QuizListingProviderProps {
-  quizzes: PlainQuiz[];
+  quizzes: Quiz[];
   config?: QuizListingConfig;
   children: ReactNode;
 }

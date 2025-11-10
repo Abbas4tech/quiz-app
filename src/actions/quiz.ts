@@ -1,30 +1,16 @@
 "use server";
-import { FlattenMaps, Types } from "mongoose";
 import { getServerSession } from "next-auth";
 import { notFound, redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 
 import { authOptions } from "@/app/api/auth/options";
-import QuizModel from "@/model/Quiz";
+import QuizModel, { Quiz } from "@/model/Quiz";
 import dbConnect from "@/db/connection";
+import { QuizForm } from "@/schemas/quiz";
 
 /**
  * Plain quiz type for serialization to client components
  */
-export interface PlainQuiz {
-  _id: string;
-  title: string;
-  description?: string;
-  createdAt: Date;
-  updatedAt: Date;
-  createdBy: string;
-  questions?: Array<{
-    questionText: string;
-    options: string[];
-    correctAnswer: string;
-  }>;
-}
-
 /**
  * Fetch all quizzes with optional pagination (Admin-only - requires authentication).
  * Returns only quizzes created by the logged-in admin.
@@ -32,7 +18,7 @@ export interface PlainQuiz {
 export async function getAllQuizzes(
   limit = 50,
   skip = 0
-): Promise<PlainQuiz[]> {
+): Promise<{ message: string; data: Quiz[] }> {
   await dbConnect();
 
   const session = await getServerSession(authOptions);
@@ -46,17 +32,20 @@ export async function getAllQuizzes(
     .limit(limit)
     .lean();
 
-  const res: PlainQuiz[] = quizzes.map((item) => ({
+  const res: Quiz[] = quizzes.map((item) => ({
     _id: item._id.toString(),
     title: item.title,
     description: item.description,
     questions: item.questions,
     createdAt: item.createdAt,
     updatedAt: item.updatedAt,
-    createdBy: item.createdBy?.toString(),
+    createdBy: item.createdBy.toString(),
   }));
 
-  return res;
+  return {
+    message: "Successfully fetched Quizzes",
+    data: res,
+  };
 }
 
 export async function recentlyModifiedQuizzes(limit = 5): Promise<
@@ -92,10 +81,7 @@ export async function recentlyModifiedQuizzes(limit = 5): Promise<
  * Fetch all public quizzes (No authentication required).
  * Returns all quizzes with full details for public viewing.
  */
-export async function getPublicQuizzes(
-  limit = 100,
-  skip = 0
-): Promise<PlainQuiz[]> {
+export async function getPublicQuizzes(limit = 100, skip = 0): Promise<Quiz[]> {
   try {
     await dbConnect();
 
@@ -113,7 +99,7 @@ export async function getPublicQuizzes(
       createdAt: quiz.createdAt,
       updatedAt: quiz.updatedAt,
       questions: quiz.questions,
-    })) as PlainQuiz[];
+    })) as Quiz[];
   } catch (error) {
     console.error("Error fetching public quizzes:", error);
     throw new Error("Failed to fetch quizzes");
@@ -123,26 +109,7 @@ export async function getPublicQuizzes(
 /**
  * Fetch a specific quiz by its MongoDB ID (Admin version - requires auth).
  */
-export async function getQuizById(id: string): Promise<
-  FlattenMaps<{
-    _id: Types.ObjectId;
-    title: string;
-    description?: string | undefined;
-    questions: {
-      questionText: string;
-      options: string[];
-      correctAnswer: string;
-    }[];
-    createdBy?: Types.ObjectId | undefined;
-    createdAt: Date;
-    updatedAt: Date;
-  }> &
-    Required<{
-      _id: Types.ObjectId;
-    }> & {
-      __v: number;
-    }
-> {
+export async function getQuizById(id: string): Promise<Quiz> {
   await dbConnect();
 
   const session = await getServerSession(authOptions);
@@ -156,14 +123,22 @@ export async function getQuizById(id: string): Promise<
     notFound();
   }
 
-  return quiz;
+  return {
+    _id: quiz._id.toString(),
+    title: quiz.title,
+    description: quiz.description,
+    questions: quiz.questions,
+    createdAt: quiz.createdAt,
+    updatedAt: quiz.updatedAt,
+    createdBy: quiz.createdBy.toString(),
+  };
 }
 
 /**
  * Fetch a specific quiz by ID for public access (No authentication required).
  * Returns full quiz with questions for quiz-taking.
  */
-export async function getPublicQuizById(id: string): Promise<PlainQuiz> {
+export async function getPublicQuizById(id: string): Promise<Quiz> {
   try {
     await dbConnect();
 
@@ -182,7 +157,8 @@ export async function getPublicQuizById(id: string): Promise<PlainQuiz> {
       createdAt: quiz.createdAt,
       updatedAt: quiz.updatedAt,
       questions: quiz.questions,
-    } as PlainQuiz;
+      createdBy: quiz.createdBy.toString(),
+    };
   } catch (error) {
     console.error("Error fetching public quiz:", error);
     notFound();
@@ -192,15 +168,9 @@ export async function getPublicQuizById(id: string): Promise<PlainQuiz> {
 /**
  * Create a new quiz (Admin-only).
  */
-export async function createQuiz(data: {
-  title: string;
-  description?: string;
-  questions: Array<{
-    questionText: string;
-    options: string[];
-    correctAnswer: string;
-  }>;
-}): Promise<PlainQuiz> {
+export async function createQuiz(
+  data: QuizForm
+): Promise<{ message: string; data: Quiz; status: number }> {
   try {
     await dbConnect();
 
@@ -214,14 +184,23 @@ export async function createQuiz(data: {
       createdBy: session.user._id,
     });
 
+    revalidatePath("/quizzes");
+    revalidatePath("/dashboard/quiz/");
+    revalidatePath("/dashboard/quiz/[id]");
+
     return {
-      _id: quiz._id.toString(),
-      title: quiz.title,
-      description: quiz.description,
-      createdAt: quiz.createdAt,
-      updatedAt: quiz.updatedAt,
-      questions: quiz.questions,
-    } as PlainQuiz;
+      message: "Successfully created Quiz",
+      data: {
+        _id: quiz._id.toString(),
+        title: quiz.title,
+        description: quiz.description,
+        createdAt: quiz.createdAt,
+        updatedAt: quiz.updatedAt,
+        questions: quiz.questions,
+        createdBy: quiz.createdBy.toString(),
+      },
+      status: 200,
+    };
   } catch (error) {
     console.error("Error creating quiz:", error);
     throw new Error("Failed to create quiz");
@@ -233,16 +212,8 @@ export async function createQuiz(data: {
  */
 export async function updateQuiz(
   id: string,
-  data: {
-    title?: string;
-    description?: string;
-    questions?: Array<{
-      questionText: string;
-      options: string[];
-      correctAnswer: string;
-    }>;
-  }
-): Promise<PlainQuiz> {
+  data: QuizForm
+): Promise<{ message: string; data: Quiz; status: number }> {
   try {
     await dbConnect();
 
@@ -261,14 +232,23 @@ export async function updateQuiz(
       notFound();
     }
 
+    revalidatePath("/quizzes");
+    revalidatePath("/dashboard/quiz/");
+    revalidatePath("/dashboard/quiz/[id]");
+
     return {
-      _id: quiz._id.toString(),
-      title: quiz.title,
-      description: quiz.description,
-      createdAt: quiz.createdAt,
-      updatedAt: quiz.updatedAt,
-      questions: quiz.questions,
-    } as PlainQuiz;
+      message: "Successfully Updated Quiz..",
+      data: {
+        _id: quiz._id.toString(),
+        title: quiz.title,
+        description: quiz.description,
+        createdAt: quiz.createdAt,
+        updatedAt: quiz.updatedAt,
+        questions: quiz.questions,
+        createdBy: quiz.createdBy.toString(),
+      },
+      status: 200,
+    };
   } catch (error) {
     console.error("Error updating quiz:", error);
     throw new Error("Failed to update quiz");
@@ -296,79 +276,11 @@ export async function deleteQuiz(id: string): Promise<void> {
       notFound();
     }
 
-    // ✅ CRITICAL: Revalidate the cache
-    // This tells Next.js to refresh the data for these routes
-    revalidatePath("/dashboard");
     revalidatePath("/quizzes");
-
-    // Optional: Also revalidate any detail pages
+    revalidatePath("/dashboard/quiz/");
     revalidatePath("/dashboard/quiz/[id]");
-    revalidatePath("/quiz/[id]");
   } catch (error) {
     console.error("Error deleting quiz:", error);
     throw new Error("Failed to delete quiz");
-  }
-}
-
-/**
- * Get quiz count for a specific admin user.
- */
-export async function getAdminQuizCount(): Promise<number> {
-  try {
-    await dbConnect();
-
-    const session = await getServerSession(authOptions);
-    if (!session?.user) {
-      return 0;
-    }
-
-    return await QuizModel.countDocuments({ createdBy: session.user._id });
-  } catch (error) {
-    console.error("Error counting quizzes:", error);
-    throw new Error("Failed to count quizzes");
-  }
-}
-
-/**
- * Get total public quiz count.
- */
-export async function getPublicQuizCount(): Promise<number> {
-  try {
-    await dbConnect();
-    return await QuizModel.countDocuments();
-  } catch (error) {
-    console.error("Error counting public quizzes:", error);
-    throw new Error("Failed to count quizzes");
-  }
-}
-
-/**
- * Search public quizzes by title (No authentication required).
- */
-export async function searchPublicQuizzes(
-  query: string,
-  limit = 20
-): Promise<PlainQuiz[]> {
-  try {
-    await dbConnect();
-
-    const quizzes = await QuizModel.find({
-      title: { $regex: query, $options: "i" }, // Case-insensitive search
-    })
-      .select("title description createdAt updatedAt questions")
-      .limit(limit)
-      .lean();
-
-    return quizzes.map((quiz) => ({
-      _id: quiz._id.toString(),
-      title: quiz.title,
-      description: quiz.description,
-      createdAt: quiz.createdAt,
-      updatedAt: quiz.updatedAt,
-      questions: quiz.questions,
-    })) as PlainQuiz[];
-  } catch (error) {
-    console.error("Error searching quizzes:", error);
-    throw new Error("Failed to search quizzes");
   }
 }
