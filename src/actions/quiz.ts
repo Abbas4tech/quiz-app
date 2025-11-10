@@ -143,7 +143,7 @@ export async function getPublicQuizById(id: string): Promise<Quiz> {
     await dbConnect();
 
     const quiz = await QuizModel.findById(id)
-      .select("title description questions createdAt updatedAt")
+      .select("title description questions createdAt createdBy updatedAt")
       .lean();
 
     if (!quiz) {
