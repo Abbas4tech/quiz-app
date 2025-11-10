@@ -1,9 +1,7 @@
 import React from "react";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface DashboardCardProps {
   title: string;
@@ -19,8 +17,6 @@ export default function DashboardCard({
   description,
   icon,
   href,
-  badge,
-  badgeVariant = "secondary",
 }: DashboardCardProps): React.JSX.Element {
   return (
     <Link href={href}>
@@ -31,7 +27,7 @@ export default function DashboardCard({
               <CardTitle className="text-lg group-hover:text-primary transition-colors">
                 {title}
               </CardTitle>
-              <p className="mt-2 text-sm text-slate-600 group-hover:text-slate-700 transition-colors">
+              <p className="mt-2 text-sm text-muted-foreground transition-colors">
                 {description}
               </p>
             </div>
@@ -40,21 +36,6 @@ export default function DashboardCard({
             </div>
           </div>
         </CardHeader>
-
-        {badge && (
-          <CardContent className="pt-0">
-            <div className="flex items-center justify-between">
-              <Badge variant={badgeVariant}>{badge}</Badge>
-              <ArrowRight className="h-4 w-4 text-slate-300 group-hover:translate-x-1 transition-transform" />
-            </div>
-          </CardContent>
-        )}
-
-        {!badge && (
-          <CardContent className="pt-0">
-            <ArrowRight className="h-4 w-4 text-slate-300 group-hover:translate-x-1 transition-transform" />
-          </CardContent>
-        )}
       </Card>
     </Link>
   );

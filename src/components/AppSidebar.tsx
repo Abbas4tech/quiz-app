@@ -24,13 +24,13 @@ import {
 } from "@/components/ui/sidebar";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { getUpdatedTimeString } from "@/lib/utils";
+import { PERMISSIONS } from "@/types/permissions";
 
 import NavUser from "./NavUser";
 
 export default function AppSidebar({
   recentlyModifiedQuizzes,
 }: {
-  quizzes: { _id: string; title: string }[];
   recentlyModifiedQuizzes: {
     _id: string;
     title: string;
@@ -72,23 +72,25 @@ export default function AppSidebar({
         <SidebarGroup>
           <SidebarGroupLabel>Quick Access</SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  asChild
-                  isActive={pathname === "/dashboard/quiz/new"}
-                >
-                  <Link href="/dashboard/quiz/new">
-                    <Plus className="h-4 w-4" />
-                    <span>Create New Quiz</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
+            {session?.user.permissions.includes(PERMISSIONS._WRITE) && (
+              <SidebarMenu>
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={pathname === "/dashboard/quiz/new"}
+                  >
+                    <Link href="/dashboard/quiz/new">
+                      <Plus className="h-4 w-4" />
+                      <span>Create New Quiz</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              </SidebarMenu>
+            )}
           </SidebarGroupContent>
         </SidebarGroup>
 
-        {recentlyModifiedQuizzes.length > 0 && (
+        {recentlyModifiedQuizzes.length > 0 && session?.user.permissions && (
           <SidebarGroup>
             <SidebarGroupLabel className="flex gap-1">
               <span>Recent Quizzes</span>

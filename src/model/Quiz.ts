@@ -1,12 +1,14 @@
 import mongoose, { Schema, Model, Types } from "mongoose";
 
+import { Modify } from "@/types/utils";
+
 export interface Question {
   questionText: string;
   options: string[];
   correctAnswer: string;
 }
 
-export interface Quiz {
+export interface QuizDocument {
   _id: Types.ObjectId;
   title: string;
   description?: string;
@@ -15,6 +17,8 @@ export interface Quiz {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export type Quiz = Modify<QuizDocument, { _id: string; createdBy: string }>;
 
 const questionSchema = new Schema<Question>(
   {
@@ -47,7 +51,7 @@ const questionSchema = new Schema<Question>(
   { _id: false }
 );
 
-const quizSchema = new Schema<Quiz>(
+const quizSchema = new Schema<QuizDocument>(
   {
     title: {
       type: String,
@@ -82,7 +86,7 @@ const quizSchema = new Schema<Quiz>(
 quizSchema.index({ title: 1 });
 quizSchema.index({ createdAt: -1 });
 
-const QuizModel: Model<Quiz> =
-  mongoose.models.Quiz || mongoose.model<Quiz>("Quiz", quizSchema);
+const QuizModel: Model<QuizDocument> =
+  mongoose.models.Quiz || mongoose.model<QuizDocument>("Quiz", quizSchema);
 
 export default QuizModel;

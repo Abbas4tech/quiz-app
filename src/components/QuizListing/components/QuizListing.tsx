@@ -1,7 +1,7 @@
 "use client";
 import { JSX } from "react";
 
-import { PlainQuiz } from "@/actions/quiz";
+import { Quiz } from "@/model/Quiz";
 
 import {
   QuizListingProvider,
@@ -24,7 +24,7 @@ interface QuizListingConfig {
 }
 
 interface QuizListingProps {
-  quizzes: PlainQuiz[];
+  quizzes: Quiz[];
   config?: QuizListingConfig;
   title?: string;
   description?: string;
@@ -45,7 +45,7 @@ function QuizListingContent({
       <QuizToolbar />
 
       {/* Empty State or Content */}
-      <EmptyState isPrivate={config.isPrivate} />
+      <EmptyState permissions={config.permissions} />
 
       {/* Content View */}
       {paginatedQuizzes.length > 0 && (
