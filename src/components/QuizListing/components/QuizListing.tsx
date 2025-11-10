@@ -45,7 +45,7 @@ function QuizListingContent({
       <QuizToolbar />
 
       {/* Empty State or Content */}
-      <EmptyState isPrivate={config.isPrivate} />
+      <EmptyState permissions={config.permissions} />
 
       {/* Content View */}
       {paginatedQuizzes.length > 0 && (

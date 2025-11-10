@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { deleteQuiz } from "@/actions/quiz";
+import { PERMISSIONS } from "@/types/permissions";
 
 import { useQuizListing } from "../context/QuizListingContext";
 
@@ -150,35 +151,36 @@ export default function QuizTable(): React.JSX.Element {
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center justify-end gap-2">
-                    {config.isPrivate ? (
-                      <>
-                        <Button
-                          variant="outline"
-                          asChild
-                          title="Edit Quiz"
-                          className="gap-1.5"
-                        >
-                          <Link href={`${config.editBasePath}/${quizId}`}>
-                            Edit
-                            <PenBoxIcon className="h-4 w-4" />
-                          </Link>
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => handleDelete(quizId)}
-                          disabled={isDeleting}
-                          className="text-red-600 hover:text-red-700 hover:bg-red-50"
-                          title="Delete Quiz"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </>
-                    ) : (
+                    {config?.permissions?.includes(PERMISSIONS._UPDATE) && (
+                      <Button
+                        variant="outline"
+                        asChild
+                        title="Edit Quiz"
+                        className="gap-1.5"
+                      >
+                        <Link href={`${config.editBasePath}/${quizId}`}>
+                          Edit
+                          <PenBoxIcon className="h-4 w-4" />
+                        </Link>
+                      </Button>
+                    )}
+                    {config?.permissions?.includes(PERMISSIONS._DELETE) && (
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => handleDelete(quizId)}
+                        disabled={isDeleting}
+                        className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                        title="Delete Quiz"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    )}
+                    {!config?.permissions?.length && (
                       <Button
                         asChild
                         variant="default"
-                        title={config.isPrivate ? "Preview Quiz" : "Start Quiz"}
+                        title={"Start Quiz"}
                         className="gap-1.5"
                       >
                         <Link href={`${config.playBasePath}/${quizId}`}>

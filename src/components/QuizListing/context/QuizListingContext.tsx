@@ -7,11 +7,13 @@ import React, {
   useMemo,
   type ReactNode,
 } from "react";
+import { useSession } from "next-auth/react";
 
 import { Quiz } from "@/model/Quiz";
+import { Permissions } from "@/types/permissions";
 
 interface QuizListingConfig {
-  isPrivate?: boolean;
+  permissions?: Permissions;
   editBasePath?: string;
   playBasePath?: string;
   itemsPerPage?: number;
@@ -59,7 +61,7 @@ interface QuizListingProviderProps {
 }
 
 const DEFAULT_CONFIG: Required<QuizListingConfig> = {
-  isPrivate: false,
+  permissions: [],
   editBasePath: "/dashboard/quiz",
   playBasePath: "/quizzes",
   itemsPerPage: 10,
@@ -73,11 +75,17 @@ export function QuizListingProvider({
   const [searchQuery, setSearchQuery] = useState("");
   const [viewType, setViewType] = useState<"grid" | "table">("table");
   const [currentPage, setCurrentPage] = useState(1);
+  const { data } = useSession();
 
-  const finalConfig = useMemo(
-    () => ({ ...DEFAULT_CONFIG, ...config }),
-    [config]
+  const c: QuizListingConfig = useMemo(
+    () => ({
+      ...config,
+      permissions: data?.user.permissions,
+    }),
+    [data, config]
   );
+
+  const finalConfig = useMemo(() => ({ ...DEFAULT_CONFIG, ...c }), [c]);
 
   // Filter quizzes
   const filteredQuizzes = useMemo(() => {

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { PERMISSIONS } from "@/types/permissions";
 
 import { useQuizListing } from "../context/QuizListingContext";
 
@@ -31,7 +32,7 @@ export default function QuizHeader({
           {description || defaultDescription}
         </p>
       </div>
-      {config.isPrivate && (
+      {config?.permissions?.includes(PERMISSIONS._WRITE) && (
         <div>
           <Button variant={"outline"} asChild>
             <Link href={"/dashboard/quiz/new"}>

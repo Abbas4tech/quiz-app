@@ -5,15 +5,16 @@ import { Plus, Search } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
+import { PERMISSIONS, Permissions } from "@/types/permissions";
 
 import { useQuizListing } from "../context/QuizListingContext";
 
 interface EmptyStateProps {
-  isPrivate?: boolean;
+  permissions?: Permissions;
 }
 
 export default function EmptyState({
-  isPrivate = false,
+  permissions = [],
 }: EmptyStateProps): React.JSX.Element | null {
   const { filteredQuizzes, searchQuery, totalQuizzes } = useQuizListing();
 
@@ -29,7 +30,7 @@ export default function EmptyState({
         <Search className="h-12 w-12 mx-auto mb-4" />
         <h3 className="text-lg font-semibold mb-2">No quizzes available</h3>
         <p className="text-muted-foreground">
-          {isPrivate
+          {permissions?.includes(PERMISSIONS._WRITE)
             ? "Create your first quiz to get started"
             : "Check back soon for more quizzes"}
         </p>

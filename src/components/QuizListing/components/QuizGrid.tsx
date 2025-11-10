@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { deleteQuiz } from "@/actions/quiz";
+import { PERMISSIONS } from "@/types/permissions";
 
 import { useQuizListing } from "../context/QuizListingContext";
 
@@ -74,7 +75,7 @@ export default function QuizGrid(): React.JSX.Element {
                   <Skeleton className="h-6 w-20" />
                 </div>
 
-                {config.isPrivate ? (
+                {config.permissions.length ? (
                   <div className="flex w-full items-center gap-2">
                     <Skeleton className="flex-1 h-10" />
                     <Skeleton className="flex-1 h-10" />
@@ -138,8 +139,8 @@ export default function QuizGrid(): React.JSX.Element {
                 <Badge className={difficultyColor}>{difficulty}</Badge>
               </div>
 
-              {config.isPrivate ? (
-                <div className="flex w-full items-center gap-2">
+              <div className="flex w-full items-center gap-2">
+                {config.permissions.includes(PERMISSIONS._UPDATE) && (
                   <Button
                     asChild
                     variant="outline"
@@ -153,6 +154,8 @@ export default function QuizGrid(): React.JSX.Element {
                       Edit
                     </Link>
                   </Button>
+                )}
+                {config.permissions.includes(PERMISSIONS._DELETE) && (
                   <Button
                     variant="destructive"
                     onClick={() => handleDelete(quizId)}
@@ -162,12 +165,14 @@ export default function QuizGrid(): React.JSX.Element {
                     <Trash2 className="h-4 w-4" />
                     Delete
                   </Button>
-                </div>
-              ) : (
+                )}
+              </div>
+
+              {!config.permissions.length && (
                 <Button asChild className="w-full group/btn shadow-md">
                   <Link href={`${config.playBasePath}/${quizId}`}>
                     <span className="flex items-center justify-center gap-2">
-                      {config.isPrivate ? "Preview Quiz" : "Start Quiz"}
+                      Start Quiz
                       <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
                     </span>
                   </Link>
