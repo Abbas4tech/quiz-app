@@ -10,7 +10,7 @@ export default async function DashboardPage(): Promise<React.ReactNode> {
   const [dashboardData] = await Promise.all([getDashboardData()]);
 
   return (
-    <main className="container py-8">
+    <main className="container px-6 py-8">
       {/* Header Section */}
       <div className="mb-8">
         <div>

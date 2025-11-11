@@ -16,7 +16,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { useQuizBuilder } from "../context/QuizBuilderContext";
 
-export function QuizDetailsForm(): React.JSX.Element {
+export default function QuizDetailsForm(): React.JSX.Element {
   const { form } = useQuizBuilder();
 
   return (

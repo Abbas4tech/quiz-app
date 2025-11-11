@@ -20,11 +20,12 @@ import { Eye, ListOrdered } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Question } from "@/schemas/quiz";
 
 import { useQuizBuilder } from "../context/QuizBuilderContext";
-import { SortableQuestionCard } from "./SortableQuestionCard";
+import { SortableQuestionCard } from ".";
 
-export function QuizLivePreview(): React.JSX.Element {
+export default function QuizLivePreview(): React.JSX.Element {
   const { form } = useQuizBuilder();
 
   const questions = form.watch("questions") || [];
@@ -54,6 +55,20 @@ export function QuizLivePreview(): React.JSX.Element {
         form.setValue("questions", newQuestions, { shouldDirty: true });
       }
     }
+  };
+
+  const handleUpdateQuestion = (
+    index: number,
+    updatedQuestion: Question
+  ): void => {
+    const newQuestions = [...questions];
+    newQuestions[index] = updatedQuestion;
+    form.setValue("questions", newQuestions, { shouldDirty: true });
+  };
+
+  const handleRemoveQuestion = (index: number): void => {
+    const newQuestions = questions.filter((_, i) => i !== index);
+    form.setValue("questions", newQuestions, { shouldDirty: true });
   };
 
   return (
@@ -102,7 +117,7 @@ export function QuizLivePreview(): React.JSX.Element {
               Questions ({questions.length})
             </CardTitle>
             <p className="text-sm text-muted-foreground">
-              Drag and drop to reorder
+              Drag to reorder • Click edit icon to modify
             </p>
           </CardHeader>
           <CardContent className="space-y-3">
@@ -121,14 +136,10 @@ export function QuizLivePreview(): React.JSX.Element {
                     id={`question-${idx}`}
                     question={question}
                     index={idx}
-                    onRemove={() => {
-                      const newQuestions = questions.filter(
-                        (_, i) => i !== idx
-                      );
-                      form.setValue("questions", newQuestions, {
-                        shouldDirty: true,
-                      });
-                    }}
+                    onRemove={() => handleRemoveQuestion(idx)}
+                    onUpdate={(updatedQuestion) =>
+                      handleUpdateQuestion(idx, updatedQuestion)
+                    }
                   />
                 ))}
               </SortableContext>

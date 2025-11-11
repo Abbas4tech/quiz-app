@@ -4,24 +4,36 @@ const BuilderActions = dynamic(() =>
   import("./BuilderActions").then((m) => m.default)
 );
 
-const QuestionBuilder = dynamic(() =>
-  import("./QuestionBuilder").then((m) => m.default)
+const QuestionBuilderForm = dynamic(() =>
+  import("./QuestionBuilderForm").then((m) => m.default)
 );
 
-const QuestionPreview = dynamic(() =>
-  import("./QuestionPreview").then((m) => m.default)
+const QuizLivePreview = dynamic(() =>
+  import("./QuizLivePreview").then((m) => m.default)
 );
 
-const QuizTitle = dynamic(() => import("./QuizTitle").then((m) => m.default));
+const SortableQuestionCard = dynamic(() =>
+  import("./SortableQuestionCard").then((m) => m.default)
+);
 
 const SubmitDialog = dynamic(() =>
   import("./SubmitModal").then((m) => m.default)
 );
 
+const QuestionForm = dynamic(() =>
+  import("./QuestionForm").then((m) => m.default)
+);
+
+const QuizDetailsForm = dynamic(() =>
+  import("./QuizDetailsForm").then((m) => m.default)
+);
+
 export {
   BuilderActions,
-  QuestionBuilder,
-  QuestionPreview,
-  QuizTitle,
   SubmitDialog,
+  SortableQuestionCard,
+  QuestionBuilderForm,
+  QuizLivePreview,
+  QuestionForm,
+  QuizDetailsForm,
 };

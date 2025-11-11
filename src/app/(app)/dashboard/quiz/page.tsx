@@ -7,12 +7,10 @@ export default async function QuizPage(): Promise<React.JSX.Element> {
   const { data } = await getAllQuizzes();
 
   return (
-    <div>
-      <QuizListings
-        title="Manage your Quizzes"
-        quizzes={data}
-        config={{ isPrivate: true, itemsPerPage: 9 }}
-      />
-    </div>
+    <QuizListings
+      title="Manage your Quizzes"
+      quizzes={data}
+      config={{ isPrivate: true, itemsPerPage: 9 }}
+    />
   );
 }

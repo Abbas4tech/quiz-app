@@ -14,9 +14,7 @@ import {
   useQuizBuilder,
 } from "../context/QuizBuilderContext";
 import { useQuizBuilderSubmit } from "../hooks/useQuizBuilderSubmit";
-import { QuizDetailsForm } from "./QuizDetailsForm";
-import { QuestionBuilderForm } from "./QuestionBuilderForm";
-import { QuizLivePreview } from "./QuizLivePreview";
+import { QuestionBuilderForm, QuizDetailsForm, QuizLivePreview } from ".";
 
 interface QuizBuilderProps {
   mode: "create" | "edit";
