@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { BookOpen } from "lucide-react";
 
 import {
   FormField,
@@ -10,18 +11,21 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { useQuizBuilder } from "../context/QuizBuilderContext";
 
-export default function QuizTitleInput(): React.JSX.Element {
+export default function QuizDetailsForm(): React.JSX.Element {
   const { form } = useQuizBuilder();
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-xl">Quiz Details</CardTitle>
+        <CardTitle className="flex items-center gap-2">
+          <BookOpen className="h-5 w-5" />
+          Quiz Details
+        </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <FormField
@@ -29,10 +33,10 @@ export default function QuizTitleInput(): React.JSX.Element {
           name="title"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Title</FormLabel>
+              <FormLabel>Quiz Title *</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="Enter quiz title..."
+                  placeholder="e.g., JavaScript Fundamentals"
                   className="text-base"
                   {...field}
                 />
@@ -47,11 +51,12 @@ export default function QuizTitleInput(): React.JSX.Element {
           name="description"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Description</FormLabel>
+              <FormLabel>Description (Optional)</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder="Enter quiz description..."
-                  className="text-base"
+                  placeholder="Brief description of your quiz..."
+                  className="text-base resize-none"
+                  rows={3}
                   {...field}
                 />
               </FormControl>
