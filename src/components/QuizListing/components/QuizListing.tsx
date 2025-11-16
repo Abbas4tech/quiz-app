@@ -1,7 +1,7 @@
 "use client";
 import { JSX } from "react";
 
-import { PlainQuiz } from "@/actions/quiz";
+import { Quiz } from "@/model/Quiz";
 
 import {
   QuizListingProvider,
@@ -17,14 +17,13 @@ import {
 } from ".";
 
 interface QuizListingConfig {
-  isPrivate?: boolean;
   editBasePath?: string;
   playBasePath?: string;
   itemsPerPage?: number;
 }
 
 interface QuizListingProps {
-  quizzes: PlainQuiz[];
+  quizzes: Quiz[];
   config?: QuizListingConfig;
   title?: string;
   description?: string;
@@ -37,7 +36,7 @@ function QuizListingContent({
   const { paginatedQuizzes, viewType, config } = useQuizListing();
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 p-6 container">
       {/* Header */}
       <QuizHeader title={title} description={description} />
 
@@ -45,7 +44,7 @@ function QuizListingContent({
       <QuizToolbar />
 
       {/* Empty State or Content */}
-      <EmptyState isPrivate={config.isPrivate} />
+      <EmptyState permissions={config.permissions} />
 
       {/* Content View */}
       {paginatedQuizzes.length > 0 && (

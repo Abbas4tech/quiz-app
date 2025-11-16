@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { deleteQuiz } from "@/actions/quiz";
+import { PERMISSIONS } from "@/types/permissions";
 
 import { useQuizListing } from "../context/QuizListingContext";
 
@@ -54,18 +55,20 @@ export default function QuizTable(): React.JSX.Element {
   const getDifficultyBadge = (questionCount: number): React.JSX.Element => {
     if (questionCount > 20) {
       return (
-        <Badge className="bg-red-100 text-red-800 hover:bg-red-100">Hard</Badge>
+        <Badge className="bg-red-100 text-red-800 border border-red-300">
+          Hard
+        </Badge>
       );
     }
     if (questionCount > 15) {
       return (
-        <Badge className="bg-yellow-100 text-yellow-800 hover:bg-yellow-100">
+        <Badge className="bg-yellow-100 text-yellow-800 border border-yellow-300">
           Medium
         </Badge>
       );
     }
     return (
-      <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
+      <Badge className="bg-blue-100 text-blue-800 border border-blue-300">
         Easy
       </Badge>
     );
@@ -129,8 +132,8 @@ export default function QuizTable(): React.JSX.Element {
             // Normal row
             return (
               <TableRow key={quizId} className="transition-colors">
-                <TableCell className="py-4">
-                  <div className="space-y-1 max-w-xs">
+                <TableCell className="">
+                  <div className="max-w-xs">
                     <p className="font-bold truncate">{quiz.title}</p>
                     <p className="text-sm text-muted-foreground truncate">
                       {quiz.description || "No description"}
@@ -150,35 +153,35 @@ export default function QuizTable(): React.JSX.Element {
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center justify-end gap-2">
-                    {config.isPrivate ? (
-                      <>
-                        <Button
-                          variant="outline"
-                          asChild
-                          title="Edit Quiz"
-                          className="gap-1.5"
-                        >
-                          <Link href={`${config.editBasePath}/${quizId}`}>
-                            Edit
-                            <PenBoxIcon className="h-4 w-4" />
-                          </Link>
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => handleDelete(quizId)}
-                          disabled={isDeleting}
-                          className="text-red-600 hover:text-red-700 hover:bg-red-50"
-                          title="Delete Quiz"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </>
-                    ) : (
+                    {config?.permissions?.includes(PERMISSIONS._UPDATE) && (
+                      <Button
+                        variant="outline"
+                        asChild
+                        title="Edit Quiz"
+                        className="gap-1.5"
+                      >
+                        <Link href={`${config.editBasePath}/${quizId}`}>
+                          <PenBoxIcon className="h-4 w-4" />
+                        </Link>
+                      </Button>
+                    )}
+                    {config?.permissions?.includes(PERMISSIONS._DELETE) && (
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => handleDelete(quizId)}
+                        disabled={isDeleting}
+                        className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                        title="Delete Quiz"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    )}
+                    {!config?.permissions?.length && (
                       <Button
                         asChild
                         variant="default"
-                        title={config.isPrivate ? "Preview Quiz" : "Start Quiz"}
+                        title={"Start Quiz"}
                         className="gap-1.5"
                       >
                         <Link href={`${config.playBasePath}/${quizId}`}>

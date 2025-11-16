@@ -76,13 +76,7 @@ export function DynamicBreadcrumb({
       label: string;
       href: string;
       isActive: boolean;
-    }> = [
-      {
-        label: "Home",
-        href: "/",
-        isActive: pathname === "/",
-      },
-    ];
+    }> = [];
 
     let currentPath = "";
     segments.forEach((segment, index) => {

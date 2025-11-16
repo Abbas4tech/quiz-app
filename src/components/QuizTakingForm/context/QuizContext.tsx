@@ -8,7 +8,7 @@ import React, {
   type ReactNode,
 } from "react";
 
-import { PlainQuiz } from "@/actions/quiz";
+import { Quiz } from "@/model/Quiz";
 
 interface QuizState {
   currentQuestionIndex: number;
@@ -29,7 +29,7 @@ type QuizAction =
 
 interface QuizContextValue {
   state: QuizState;
-  quiz: PlainQuiz;
+  quiz: Quiz;
   dispatch: React.Dispatch<QuizAction>;
 }
 
@@ -96,7 +96,7 @@ function quizReducer(state: QuizState, action: QuizAction): QuizState {
 }
 
 interface QuizProviderProps {
-  quiz: PlainQuiz;
+  quiz: Quiz;
   children: ReactNode;
 }
 

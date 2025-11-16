@@ -80,7 +80,7 @@ export default async function QuizzesPage(): Promise<React.JSX.Element> {
               </h2>
             </div> */}
 
-            <QuizListings quizzes={quizzes} config={{ isPrivate: false }} />
+            <QuizListings quizzes={quizzes} config={{}} />
           </div>
         ) : (
           <Card className="border-2 border-dashed">

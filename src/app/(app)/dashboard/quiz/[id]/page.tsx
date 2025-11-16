@@ -23,21 +23,8 @@ const EditQuizDetails = async ({
 }): Promise<React.JSX.Element> => {
   const { id } = await params;
   const data = await getQuizById(id);
-  const quizData = {
-    title: data.title,
-    description: data.description,
-    questions: data.questions.map((q) => ({
-      questionText: q.questionText,
-      options: q.options,
-      correctAnswer: q.correctAnswer,
-    })),
-  };
   return (
-    <QuizBuilder
-      quizId={data._id.toString()}
-      initialData={quizData}
-      mode="edit"
-    />
+    <QuizBuilder quizId={data._id.toString()} initialData={data} mode="edit" />
   );
 };
 

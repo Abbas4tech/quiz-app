@@ -25,6 +25,7 @@ const AuthButton = forwardRef<HTMLButtonElement, AuthButtonProps>(
     } else {
       return (
         <Button ref={ref} onClick={() => signOut()} {...props}>
+          Logout
           <LogOut />
         </Button>
       );

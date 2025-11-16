@@ -28,7 +28,7 @@ export default function QuizPagination(): React.JSX.Element | null {
   }
 
   return (
-    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between p-4 rounded-lg">
+    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between rounded-lg">
       {/* Info */}
       <div className="text-sm">
         Showing <span className="font-semibold">{startIndex}</span>
