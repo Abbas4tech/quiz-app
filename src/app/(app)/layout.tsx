@@ -31,7 +31,7 @@ export default async function AdminLayout({
             </div>
             <ThemeToggle className="ml-auto" />
           </div>
-          <div className="p-6">{children}</div>
+          {children}
         </main>
       </div>
     </SidebarProvider>

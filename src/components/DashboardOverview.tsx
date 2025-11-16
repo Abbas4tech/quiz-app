@@ -46,7 +46,7 @@ const list: DashboardFeatureList[] = [
     description: "Explore all available quizzes and test your knowledge",
     icon: (
       <div className="flex items-start justify-between mb-4">
-        <div className="bg-blue-100 dark:bg-blue-900/40 p-3 rounded-lg group-hover:bg-blue-200 dark:group-hover:bg-blue-800 transition-colors">
+        <div className="bg-blue-100 dark:bg-blue-900/40 p-3 rounded-lg transition-colors">
           <BookOpen className="h-6 w-6 text-blue-600 dark:text-blue-400" />
         </div>
       </div>

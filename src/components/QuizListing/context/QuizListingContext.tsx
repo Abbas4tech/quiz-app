@@ -64,7 +64,7 @@ const DEFAULT_CONFIG: Required<QuizListingConfig> = {
   permissions: [],
   editBasePath: "/dashboard/quiz",
   playBasePath: "/quizzes",
-  itemsPerPage: 10,
+  itemsPerPage: 6,
 };
 
 export function QuizListingProvider({

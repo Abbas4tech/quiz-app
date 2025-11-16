@@ -1,6 +1,6 @@
 "use server";
 
-import { getServerSession } from "next-auth";
+import { getServerSession, Session } from "next-auth";
 import { redirect } from "next/navigation";
 
 import { authOptions } from "@/app/api/auth/options";
@@ -44,15 +44,11 @@ export interface DashboardData {
  * Fetch all dashboard data (stats, user profile, recently modified quizzes)
  * Returns comprehensive dashboard information for authenticated users
  */
-export async function getDashboardData(): Promise<DashboardData> {
+export async function getDashboardData(
+  session: Session
+): Promise<DashboardData> {
   try {
     await dbConnect();
-
-    // Get session
-    const session = await getServerSession(authOptions);
-    if (!session?.user) {
-      redirect("/");
-    }
 
     const userId = session.user._id;
 
