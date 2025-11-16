@@ -21,15 +21,15 @@ import { Eye, ListOrdered } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Question } from "@/schemas/quiz";
 
 import { useQuizBuilder } from "../context/QuizBuilderContext";
 import { SortableQuestionCard } from ".";
+import { useQuestionBuilder } from "../hooks/useQuestionBuilder";
 
 export default function QuizLivePreview(): React.JSX.Element {
   const { form } = useQuizBuilder();
+  const { questions, updateQuestion, removeQuestion } = useQuestionBuilder();
 
-  const questions = form.watch("questions") || [];
   const title = form.watch("title");
   const description = form.watch("description");
 
@@ -60,28 +60,6 @@ export default function QuizLivePreview(): React.JSX.Element {
         });
       }
     }
-  };
-
-  const handleUpdateQuestion = (
-    index: number,
-    updatedQuestion: Question
-  ): void => {
-    const newQuestions = [...questions];
-    newQuestions[index] = updatedQuestion;
-    form.setValue("questions", newQuestions, {
-      shouldDirty: true,
-      shouldTouch: true,
-      shouldValidate: true,
-    });
-  };
-
-  const handleRemoveQuestion = (index: number): void => {
-    const newQuestions = questions.filter((_, i) => i !== index);
-    form.setValue("questions", newQuestions, {
-      shouldDirty: true,
-      shouldTouch: true,
-      shouldValidate: true,
-    });
   };
 
   return (
@@ -154,10 +132,8 @@ export default function QuizLivePreview(): React.JSX.Element {
                     id={`question-${idx}`}
                     question={question}
                     index={idx}
-                    onRemove={() => handleRemoveQuestion(idx)}
-                    onUpdate={(updatedQuestion) =>
-                      handleUpdateQuestion(idx, updatedQuestion)
-                    }
+                    onRemove={() => removeQuestion(idx)}
+                    onUpdate={() => updateQuestion()}
                   />
                 ))}
               </SortableContext>

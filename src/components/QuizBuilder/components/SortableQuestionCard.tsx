@@ -12,6 +12,7 @@ import { Question } from "@/schemas/quiz";
 import { useQuizBuilder } from "../context/QuizBuilderContext";
 import { getOptionLabel, getValidOptions } from "../utils/quizBuilder";
 import { QuestionForm } from ".";
+import { useQuestionBuilder } from "../hooks/useQuestionBuilder";
 
 interface SortableQuestionCardProps {
   id: string;
@@ -45,6 +46,13 @@ export default function SortableQuestionCard({
   });
 
   const { state, dispatch } = useQuizBuilder();
+  const {
+    setEditingQuestionText,
+    updateEditingCorrectAnswer,
+    removeEditingOption,
+    updateEditingQuestion,
+    addEditingOption,
+  } = useQuestionBuilder();
   const editingQuestion = state.editingQuestion.question;
   const isEditing =
     state.editingQuestion.isEditing &&
@@ -214,31 +222,11 @@ export default function SortableQuestionCard({
             questionText={editingQuestion.questionText}
             options={editingQuestion.options}
             correctAnswer={editingQuestion.correctAnswer}
-            onQuestionTextChange={(text) =>
-              dispatch({
-                type: "UPDATE_EDITING_QUESTION_TEXT",
-                payload: text,
-              })
-            }
-            onOptionChange={(idx, value) =>
-              dispatch({
-                type: "UPDATE_EDITING_OPTION",
-                payload: { index: idx, value },
-              })
-            }
-            onAddOption={() => dispatch({ type: "ADD_EDITING_OPTION" })}
-            onRemoveOption={(idx) =>
-              dispatch({
-                type: "REMOVE_EDITING_OPTION",
-                payload: idx,
-              })
-            }
-            onCorrectAnswerChange={(answer) =>
-              dispatch({
-                type: "UPDATE_EDITING_CORRECT_ANSWER",
-                payload: answer,
-              })
-            }
+            onQuestionTextChange={setEditingQuestionText}
+            onOptionChange={updateEditingQuestion}
+            onAddOption={addEditingOption}
+            onRemoveOption={removeEditingOption}
+            onCorrectAnswerChange={updateEditingCorrectAnswer}
             onPrimaryAction={handleSaveEdit}
             isPrimaryActionDisabled={!isValid}
             primaryActionLabel="Save Changes"

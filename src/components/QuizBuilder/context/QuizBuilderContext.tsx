@@ -68,7 +68,6 @@ function quizBuilderReducer(
   action: QuizBuilderAction
 ): QuizBuilderState {
   switch (action.type) {
-    // Add Question Mode
     case "SET_QUESTION_TEXT":
       return { ...state, questionText: action.payload };
 
@@ -103,7 +102,7 @@ function quizBuilderReducer(
       return {
         ...state,
         questionText: "",
-        options: ["", "", "", ""],
+        options: ["", ""],
         correctAnswer: "",
       };
 
