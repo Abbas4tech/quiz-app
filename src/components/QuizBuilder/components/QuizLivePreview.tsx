@@ -9,6 +9,7 @@ import {
   useSensor,
   useSensors,
   DragEndEvent,
+  MeasuringStrategy,
 } from "@dnd-kit/core";
 import {
   arrayMove,
@@ -52,7 +53,11 @@ export default function QuizLivePreview(): React.JSX.Element {
 
       if (oldIndex !== -1 && newIndex !== -1) {
         const newQuestions = arrayMove(questions, oldIndex, newIndex);
-        form.setValue("questions", newQuestions, { shouldDirty: true });
+        form.setValue("questions", newQuestions, {
+          shouldDirty: true,
+          shouldTouch: true,
+          shouldValidate: true,
+        });
       }
     }
   };
@@ -63,12 +68,20 @@ export default function QuizLivePreview(): React.JSX.Element {
   ): void => {
     const newQuestions = [...questions];
     newQuestions[index] = updatedQuestion;
-    form.setValue("questions", newQuestions, { shouldDirty: true });
+    form.setValue("questions", newQuestions, {
+      shouldDirty: true,
+      shouldTouch: true,
+      shouldValidate: true,
+    });
   };
 
   const handleRemoveQuestion = (index: number): void => {
     const newQuestions = questions.filter((_, i) => i !== index);
-    form.setValue("questions", newQuestions, { shouldDirty: true });
+    form.setValue("questions", newQuestions, {
+      shouldDirty: true,
+      shouldTouch: true,
+      shouldValidate: true,
+    });
   };
 
   return (
@@ -122,6 +135,11 @@ export default function QuizLivePreview(): React.JSX.Element {
           </CardHeader>
           <CardContent className="space-y-3">
             <DndContext
+              measuring={{
+                droppable: {
+                  strategy: MeasuringStrategy.Always,
+                },
+              }}
               sensors={sensors}
               collisionDetection={closestCenter}
               onDragEnd={handleDragEnd}

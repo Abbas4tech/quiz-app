@@ -35,7 +35,14 @@ export default function SortableQuestionCard({
     transform,
     transition,
     isDragging,
-  } = useSortable({ id });
+  } = useSortable({
+    id,
+    animateLayoutChanges: (_) => _.isDragging && _.isSorting,
+    transition: {
+      duration: 200,
+      easing: "ease-in-out",
+    },
+  });
 
   const { state, dispatch } = useQuizBuilder();
   const editingQuestion = state.editingQuestion.question;
@@ -114,10 +121,7 @@ export default function SortableQuestionCard({
             <div className="flex-1 min-w-0">
               {/* Question Text & Actions */}
               <div className="flex items-start justify-between gap-2">
-                <p className="font-semibold text-sm">
-                  <span className="text-primary mr-2">{index + 1}.</span>
-                  {question.questionText}
-                </p>
+                <p className="font-semibold text-sm">{question.questionText}</p>
                 <div className="flex gap-1 flex-shrink-0">
                   <Button
                     type="button"
