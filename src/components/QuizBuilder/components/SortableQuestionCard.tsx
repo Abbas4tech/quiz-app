@@ -113,7 +113,7 @@ export default function SortableQuestionCard({
             {/* Question Content */}
             <div className="flex-1 min-w-0">
               {/* Question Text & Actions */}
-              <div className="flex items-start justify-between gap-2 mb-3">
+              <div className="flex items-start justify-between gap-2">
                 <p className="font-semibold text-sm">
                   <span className="text-primary mr-2">{index + 1}.</span>
                   {question.questionText}
@@ -146,7 +146,7 @@ export default function SortableQuestionCard({
               </div>
 
               {/* Options */}
-              <div className="space-y-2 ml-4">
+              <div className="space-y-2">
                 {question.options.map((opt, oidx) => {
                   const isCorrect = opt === question.correctAnswer;
                   return (

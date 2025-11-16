@@ -77,7 +77,7 @@ const QuizCard = ({
   }
 
   return (
-    <Card className="group relative overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-[1.02] border-2 hover:border-primary/50">
+    <Card className="group relative overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-[1.01] border-2 hover:border-primary/50">
       <div className="absolute inset-0 group-hover:opacity-100 transition-opacity" />
 
       <CardHeader className="relative pb-3">

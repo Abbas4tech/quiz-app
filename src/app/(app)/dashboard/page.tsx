@@ -1,13 +1,21 @@
 import React from "react";
+import { getServerSession } from "next-auth";
+import { unauthorized } from "next/navigation";
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { getDashboardData } from "@/actions/dashboard";
 import { DashboardOverview } from "@/components/DashboardOverview";
 import QuizCard from "@/components/QuizListing/components/QuizCard";
+import { authOptions } from "@/app/api/auth/options";
 
 export default async function DashboardPage(): Promise<React.ReactNode> {
-  const [dashboardData] = await Promise.all([getDashboardData()]);
+  const session = await getServerSession(authOptions);
+  if (!session?.user) {
+    unauthorized();
+  }
+
+  const [dashboardData] = await Promise.all([getDashboardData(session)]);
 
   return (
     <main className="container px-6 py-8">

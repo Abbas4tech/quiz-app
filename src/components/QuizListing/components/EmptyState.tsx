@@ -49,10 +49,8 @@ export default function EmptyState({
   return (
     <div className="text-center py-12">
       <Search className="h-12 w-12 text-slate-300 mx-auto mb-4" />
-      <h3 className="text-lg font-semibold text-slate-900 mb-2">
-        No quizzes found
-      </h3>
-      <p className="text-slate-600">
+      <h3 className="text-lg font-semibold mb-2">No quizzes found</h3>
+      <p className="text-accent-foreground">
         {searchQuery
           ? `Try adjusting your search terms for "${searchQuery}"`
           : "No quizzes available at the moment"}

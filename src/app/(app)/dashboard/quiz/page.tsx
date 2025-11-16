@@ -6,11 +6,5 @@ import QuizListings from "@/components/QuizListing";
 export default async function QuizPage(): Promise<React.JSX.Element> {
   const { data } = await getAllQuizzes();
 
-  return (
-    <QuizListings
-      title="Manage your Quizzes"
-      quizzes={data}
-      config={{ isPrivate: true, itemsPerPage: 9 }}
-    />
-  );
+  return <QuizListings title="Manage your Quizzes" quizzes={data} />;
 }

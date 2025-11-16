@@ -6,7 +6,8 @@ export function cn(...inputs: ClassValue[]): string {
 }
 
 export function getUpdatedTimeString(
-  updatedAt: number | string | Date
+  updatedAt: number | string | Date,
+  prefix = "updated"
 ): string {
   const now = new Date();
   const updated = new Date(updatedAt);
@@ -17,29 +18,29 @@ export function getUpdatedTimeString(
   const diffDay = Math.floor(diffHr / 24);
 
   if (diffSec < 30) {
-    return "updated moments ago";
+    return `${prefix} moments ago`;
   }
   if (diffSec < 90) {
-    return "updated about a minute ago";
+    return `${prefix} about a minute ago`;
   }
   if (diffMin < 60) {
-    return `updated ${diffMin} minute${diffMin > 1 ? "s" : ""} ago`;
+    return `${prefix} ${diffMin} minute${diffMin > 1 ? "s" : ""} ago`;
   }
 
   if (diffHr < 24) {
-    return `updated ${diffHr} hour${diffHr > 1 ? "s" : ""} ago`;
+    return `${prefix} ${diffHr} hour${diffHr > 1 ? "s" : ""} ago`;
   }
 
   if (diffDay === 1) {
-    return "updated yesterday";
+    return "${prefix} yesterday";
   }
   if (diffDay < 7) {
-    return `updated ${diffDay} day${diffDay > 1 ? "s" : ""} ago`;
+    return `${prefix} ${diffDay} day${diffDay > 1 ? "s" : ""} ago`;
   }
 
   if (diffDay < 30) {
     const weeks = Math.floor(diffDay / 7);
-    return `updated ${weeks} week${weeks > 1 ? "s" : ""} ago`;
+    return `${prefix} ${weeks} week${weeks > 1 ? "s" : ""} ago`;
   }
 
   // For older timestamps, show date with month name
@@ -49,5 +50,5 @@ export function getUpdatedTimeString(
     year: "numeric",
   };
   const formattedDate = updated.toLocaleDateString(undefined, options);
-  return `updated on ${formattedDate}`;
+  return `${prefix} on ${formattedDate}`;
 }

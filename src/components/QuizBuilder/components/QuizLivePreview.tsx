@@ -74,7 +74,7 @@ export default function QuizLivePreview(): React.JSX.Element {
   return (
     <div className="space-y-6">
       {/* Preview Header */}
-      <Card>
+      <Card className="py-4 gap-4">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Eye className="h-5 w-5" />

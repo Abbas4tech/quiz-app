@@ -17,7 +17,6 @@ import {
 } from ".";
 
 interface QuizListingConfig {
-  isPrivate?: boolean;
   editBasePath?: string;
   playBasePath?: string;
   itemsPerPage?: number;
@@ -37,7 +36,7 @@ function QuizListingContent({
   const { paginatedQuizzes, viewType, config } = useQuizListing();
 
   return (
-    <div className="space-y-6 p-6">
+    <div className="space-y-6 p-6 container">
       {/* Header */}
       <QuizHeader title={title} description={description} />
 
