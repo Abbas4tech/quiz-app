@@ -1,9 +1,10 @@
 import React from "react";
-import { BookOpen, Users, Brain } from "lucide-react";
+import { BookOpen } from "lucide-react";
 
 import { getPublicQuizzes } from "@/actions/quiz";
 import { Card, CardContent } from "@/components/ui/card";
 import { QuizListings } from "@/components/QuizListing/components/QuizListing";
+import { DashboardOverview } from "@/components/DashboardOverview";
 
 export default async function QuizzesPage(): Promise<React.JSX.Element> {
   const quizzes = await getPublicQuizzes(100);
@@ -14,62 +15,17 @@ export default async function QuizzesPage(): Promise<React.JSX.Element> {
   );
 
   return (
-    <div className="bg-gradient-to-br">
+    <div className="min-h-[100dvh] bg-background bg-[linear-gradient(to_right,#80808033_1px,transparent_1px),linear-gradient(to_bottom,#80808033_1px,transparent_1px)] bg-[size:70px_70px] prose-h4:xl:text-2xl prose-h4:lg:text-xl prose-h4:text-lg">
       {/* Main Content */}
-      <main className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <main className="mx-auto max-w-7xl md:space-y-6 space-y-4 p-4 md:px-4 md:py-12 sm:px-6 lg:px-8">
         {/* Stats Cards */}
-        <div className="mb-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          <Card className="border-2 overflow-hidden bg-gradient-to-br shadow-lg hover:shadow-xl transition-shadow">
-            <CardContent>
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium opacity-90">
-                    Available Quizzes
-                  </p>
-                  <p className="mt-2 text-4xl font-bold">{quizzes.length}</p>
-                  <p className="mt-1 text-xs opacity-75">Ready to take</p>
-                </div>
-                <div className="rounded-full bg-white/20 p-4">
-                  <BookOpen className="h-10 w-10" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="border-2 overflow-hidden bg-gradient-to-br shadow-lg hover:shadow-xl transition-shadow">
-            <CardContent>
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium opacity-90">
-                    Total Questions
-                  </p>
-                  <p className="mt-2 text-4xl font-bold">{totalQuestions}</p>
-                  <p className="mt-1 text-xs opacity-75">Test your knowledge</p>
-                </div>
-                <div className="rounded-full bg-white/20 p-4">
-                  <Brain className="h-10 w-10" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="border-2 overflow-hidden bg-gradient-to-br shadow-lg hover:shadow-xl transition-shadow">
-            <CardContent>
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium opacity-90">
-                    Active Learners
-                  </p>
-                  <p className="mt-2 text-4xl font-bold">1.2K+</p>
-                  <p className="mt-1 text-xs opacity-75">Join the community</p>
-                </div>
-                <div className="rounded-full bg-white/20 p-4">
-                  <Users className="h-10 w-10" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+        <DashboardOverview
+          user={undefined}
+          stats={{
+            totalQuestions,
+            totalQuizzes: quizzes.length,
+          }}
+        />
 
         {/* Quiz Grid */}
         {quizzes.length > 0 ? (

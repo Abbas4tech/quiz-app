@@ -30,7 +30,7 @@ export default function QuizNavigation(): React.JSX.Element {
       <div className="flex flex-col sm:flex-row gap-3">
         <Button
           onClick={previousQuestion}
-          variant="outline"
+          variant="neutral"
           disabled={isFirstQuestion}
           className="flex-1"
         >

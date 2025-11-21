@@ -28,10 +28,10 @@ export default function QuizProgress(): React.JSX.Element {
         <CardContent>
           <div className="space-y-3">
             <div className="flex justify-between items-center text-sm">
-              <Badge variant="outline" className="font-normal">
+              <Badge variant="default" className="font-normal">
                 Question {currentQuestionIndex + 1} of {totalQuestions}
               </Badge>
-              <Badge variant={isAllQuestionsAnswered ? "default" : "secondary"}>
+              <Badge variant={isAllQuestionsAnswered ? "default" : "neutral"}>
                 {answeredCount}/{totalQuestions} Answered
               </Badge>
             </div>

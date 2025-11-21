@@ -87,11 +87,11 @@ export default function QuizLivePreview(): React.JSX.Element {
           )}
 
           <div className="flex items-center gap-2 pt-2">
-            <Badge variant="secondary">
+            <Badge variant="neutral">
               {questions.length} Question{questions.length !== 1 ? "s" : ""}
             </Badge>
             {questions.length > 0 && (
-              <Badge variant="outline">
+              <Badge variant="default">
                 ~{Math.max(1, Math.ceil(questions.length * 1.5))} min
               </Badge>
             )}

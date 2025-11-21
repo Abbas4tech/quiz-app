@@ -16,14 +16,14 @@ import ThemeToggle from "@/components/ThemeToggle";
 
 export default function Home(): React.JSX.Element {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-[100dvh] bg-background bg-[linear-gradient(to_right,#80808033_1px,transparent_1px),linear-gradient(to_bottom,#80808033_1px,transparent_1px)] bg-[size:70px_70px] pt-[70px] prose-h4:xl:text-2xl prose-h4:lg:text-xl prose-h4:text-lg">
       {/* Hero Section */}
       <ThemeToggle className="fixed z-10 p-4 top-4 right-4" />
-      <section className="border-b">
+      <section className="border-b-4">
         <div className="container mx-auto px-4 py-20 sm:py-32">
           <div className="flex flex-col items-center text-center space-y-8 max-w-4xl mx-auto">
             {/* Badge */}
-            <Badge variant="secondary" className="px-4 py-2">
+            <Badge variant="default" className="px-4 py-2">
               <Sparkles className="h-3 w-3 mr-2" />
               Test Your Knowledge Today
             </Badge>
@@ -47,7 +47,7 @@ export default function Home(): React.JSX.Element {
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
-              <Button asChild size="lg" variant="outline" className="text-base">
+              <Button asChild size="lg" variant="default" className="text-base">
                 <Link href="/quizzes">
                   <BookOpen className="mr-2 h-4 w-4" />
                   Browse Quizzes
@@ -59,7 +59,7 @@ export default function Home(): React.JSX.Element {
       </section>
 
       {/* Features Section */}
-      <section className="border-b bg-muted/50">
+      <section className="border-b-4">
         <div className="container mx-auto px-4 py-16 sm:py-20">
           <div className="text-center mb-12 space-y-3">
             <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">
@@ -72,9 +72,9 @@ export default function Home(): React.JSX.Element {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {/* Feature 1 */}
-            <Card>
+            <Card className="bg-secondary-background">
               <CardHeader>
-                <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
+                <div className="w-12 h-12 rounded-lg bg-main/10 flex items-center justify-center mb-4">
                   <Brain className="h-6 w-6 text-primary" />
                 </div>
                 <CardTitle className="text-xl">Diverse Topics</CardTitle>
@@ -88,9 +88,9 @@ export default function Home(): React.JSX.Element {
             </Card>
 
             {/* Feature 2 */}
-            <Card>
+            <Card className="bg-secondary-background">
               <CardHeader>
-                <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
+                <div className="w-12 h-12 rounded-lg bg-main/10 flex items-center justify-center mb-4">
                   <Target className="h-6 w-6 text-primary" />
                 </div>
                 <CardTitle className="text-xl">Instant Results</CardTitle>
@@ -104,9 +104,9 @@ export default function Home(): React.JSX.Element {
             </Card>
 
             {/* Feature 3 */}
-            <Card>
+            <Card className="bg-secondary-background">
               <CardHeader>
-                <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
+                <div className="w-12 h-12 rounded-lg bg-main/10 flex items-center justify-center mb-4">
                   <Trophy className="h-6 w-6 text-primary" />
                 </div>
                 <CardTitle className="text-xl">Track Progress</CardTitle>
@@ -122,7 +122,7 @@ export default function Home(): React.JSX.Element {
       </section>
 
       {/* Stats Section */}
-      <section className="border-b">
+      <section className="border-b-4 bg-secondary-background">
         <div className="container mx-auto px-4 py-16 sm:py-20">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 text-center max-w-4xl mx-auto">
             <div className="space-y-2">
@@ -154,7 +154,7 @@ export default function Home(): React.JSX.Element {
       </section>
 
       {/* How It Works Section */}
-      <section className="border-b bg-muted/50">
+      <section className="border-b-4">
         <div className="container mx-auto px-4 py-16 sm:py-20">
           <div className="text-center mb-12 space-y-3">
             <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">
@@ -167,9 +167,9 @@ export default function Home(): React.JSX.Element {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {/* Step 1 */}
-            <Card>
+            <Card className="bg-secondary-background">
               <CardHeader>
-                <div className="mx-auto w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                <div className="mx-auto w-14 h-14 rounded-full bg-main/10 flex items-center justify-center mb-4">
                   <span className="text-2xl font-bold text-primary">1</span>
                 </div>
                 <CardTitle className="text-center">Choose a Quiz</CardTitle>
@@ -183,9 +183,9 @@ export default function Home(): React.JSX.Element {
             </Card>
 
             {/* Step 2 */}
-            <Card>
+            <Card className="bg-secondary-background">
               <CardHeader>
-                <div className="mx-auto w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                <div className="mx-auto w-14 h-14 rounded-full bg-main/10 flex items-center justify-center mb-4">
                   <span className="text-2xl font-bold text-primary">2</span>
                 </div>
                 <CardTitle className="text-center">Answer Questions</CardTitle>
@@ -199,9 +199,9 @@ export default function Home(): React.JSX.Element {
             </Card>
 
             {/* Step 3 */}
-            <Card>
+            <Card className="bg-secondary-background">
               <CardHeader>
-                <div className="mx-auto w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                <div className="mx-auto w-14 h-14 rounded-full bg-main/10 flex items-center justify-center mb-4">
                   <span className="text-2xl font-bold text-primary">3</span>
                 </div>
                 <CardTitle className="text-center">Get Your Score</CardTitle>
@@ -217,7 +217,7 @@ export default function Home(): React.JSX.Element {
       </section>
 
       {/* CTA Section */}
-      <section className="border-b bg-primary text-primary-foreground">
+      <section className="border-b bg-secondary-background text-primary-foreground">
         <div className="container mx-auto px-4 py-16 sm:py-20 text-center">
           <div className="max-w-3xl mx-auto space-y-6">
             <h2 className="text-3xl sm:text-4xl font-bold">
@@ -229,7 +229,7 @@ export default function Home(): React.JSX.Element {
             <Button
               asChild
               size="lg"
-              variant="secondary"
+              variant="default"
               className="text-base mt-4"
             >
               <Link href="/quizzes">

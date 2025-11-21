@@ -27,7 +27,7 @@ export default function QuestionNavigator(): React.JSX.Element {
             <Button
               key={idx}
               onClick={() => goToQuestion(idx)}
-              variant={idx === currentQuestionIndex ? "default" : "outline"}
+              variant={idx === currentQuestionIndex ? "default" : "neutral"}
               size="icon"
               className={`h-10 w-10 font-semibold ${
                 idx === currentQuestionIndex

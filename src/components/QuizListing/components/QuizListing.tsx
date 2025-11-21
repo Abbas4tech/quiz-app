@@ -36,7 +36,7 @@ function QuizListingContent({
   const { paginatedQuizzes, viewType, config } = useQuizListing();
 
   return (
-    <div className="space-y-6 p-6 container">
+    <div className="space-y-6 p-4 container">
       {/* Header */}
       <QuizHeader title={title} description={description} />
 

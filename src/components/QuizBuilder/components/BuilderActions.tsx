@@ -17,7 +17,7 @@ export default function BuilderActions(): React.JSX.Element {
     <div className="flex justify-end gap-3">
       <Button
         type="button"
-        variant="outline"
+        variant="default"
         size="lg"
         onClick={() => router.back()}
         disabled={isSubmitting}

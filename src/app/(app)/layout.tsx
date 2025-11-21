@@ -3,7 +3,11 @@ import { Metadata } from "next";
 
 import { AppSidebar } from "@/components";
 import { recentlyModifiedQuizzes } from "@/actions/quiz";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar";
 import ThemeToggle from "@/components/ThemeToggle";
 import { DynamicBreadcrumb } from "@/components/Breadcrumb";
 import { Separator } from "@/components/ui/separator";
@@ -22,17 +26,21 @@ export default async function AdminLayout({
     <SidebarProvider>
       <div className="flex min-h-screen w-full">
         <AppSidebar recentlyModifiedQuizzes={rec} />
-        <main className="flex-1 overflow-auto">
-          <div className="sticky top-0 z-10 flex h-14 items-center gap-4 border-b bg-background px-6">
-            <div className="flex gap-4 h-full items-center">
-              <SidebarTrigger />
-              <Separator orientation="vertical" className="h-1/3!" />
-              <DynamicBreadcrumb />
+        <SidebarInset>
+          <main className="flex-1 overflow-auto">
+            <div className="sticky top-0 z-10 flex h-14 items-center gap-4 border-b px-6">
+              <div className="flex gap-4 h-full items-center">
+                <SidebarTrigger />
+                <Separator orientation="vertical" className="h-1/3!" />
+                <DynamicBreadcrumb />
+              </div>
+              <ThemeToggle className="ml-auto" />
             </div>
-            <ThemeToggle className="ml-auto" />
-          </div>
-          {children}
-        </main>
+            <div className="min-h-[100dvh] bg-background bg-[linear-gradient(to_right,#80808033_1px,transparent_1px),linear-gradient(to_bottom,#80808033_1px,transparent_1px)] bg-[size:70px_70px] prose-h4:xl:text-2xl prose-h4:lg:text-xl prose-h4:text-lg">
+              {children}
+            </div>
+          </main>
+        </SidebarInset>
       </div>
     </SidebarProvider>
   );
