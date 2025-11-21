@@ -23,7 +23,7 @@ const ThemeToggle = React.forwardRef<HTMLButtonElement, ThemeToggleProps>(
 
     if (!mounted) {
       return (
-        <Button ref={ref} variant="outline" size="icon" {...props} disabled>
+        <Button ref={ref} variant="reverse" size="icon" {...props} disabled>
           <Sun className="h-[1.2rem] w-[1.2rem]" />
           <span className="sr-only">Toggle theme</span>
         </Button>
@@ -33,7 +33,7 @@ const ThemeToggle = React.forwardRef<HTMLButtonElement, ThemeToggleProps>(
     return (
       <Button
         ref={ref}
-        variant="outline"
+        variant="neutral"
         size="icon"
         onClick={handleClick}
         {...props}

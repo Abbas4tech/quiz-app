@@ -112,7 +112,7 @@ export default function SortableQuestionCard({
       <div ref={setNodeRef} style={style}>
         <Card
           className={`p-4 ${
-            isDragging ? "shadow-lg ring-2 ring-primary" : "hover:shadow-md"
+            isDragging ? "shadow-lg ring-1 ring-border" : ""
           } transition-all`}
         >
           <div className="flex gap-3">
@@ -128,14 +128,13 @@ export default function SortableQuestionCard({
             {/* Question Content */}
             <div className="flex-1 min-w-0">
               {/* Question Text & Actions */}
-              <div className="flex items-start justify-between gap-2">
+              <div className="flex items-start justify-between gap-2 mb-3">
                 <p className="font-semibold text-sm">{question.questionText}</p>
                 <div className="flex gap-1 flex-shrink-0">
                   <Button
                     type="button"
-                    variant="ghost"
+                    variant="noShadow"
                     size="icon"
-                    className="h-8 w-8 hover:bg-blue-50 hover:text-blue-600"
                     onClick={handleStartEdit}
                     title="Edit question"
                   >
@@ -143,9 +142,8 @@ export default function SortableQuestionCard({
                   </Button>
                   <Button
                     type="button"
-                    variant="ghost"
+                    variant="noShadow"
                     size="icon"
-                    className="h-8 w-8 hover:bg-red-50 hover:text-red-600"
                     onClick={(e) => {
                       e.stopPropagation();
                       onRemove();
@@ -197,7 +195,7 @@ export default function SortableQuestionCard({
   if (isEditing) {
     return (
       <div ref={setNodeRef} style={style}>
-        <div className="space-y-3 p-6 rounded-lg border-2 border-primary/50 bg-blue-50 dark:bg-blue-950/20">
+        <div className="space-y-3 p-6 border-2 border-primary/50 bg-blue-50 dark:bg-blue-950/20">
           {/* Header with close button */}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -208,7 +206,7 @@ export default function SortableQuestionCard({
             </div>
             <Button
               type="button"
-              variant="ghost"
+              variant="default"
               size="icon"
               className="h-8 w-8"
               onClick={handleCancelEdit}

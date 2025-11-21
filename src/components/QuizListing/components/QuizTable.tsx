@@ -82,7 +82,7 @@ export default function QuizTable(): React.JSX.Element {
     });
 
   return (
-    <div className="rounded-lg border overflow-hidden">
+    <div className="overflow-hidden">
       <Table>
         <TableHeader>
           <TableRow>
@@ -135,13 +135,13 @@ export default function QuizTable(): React.JSX.Element {
                 <TableCell className="">
                   <div className="max-w-xs">
                     <p className="font-bold truncate">{quiz.title}</p>
-                    <p className="text-sm text-muted-foreground truncate">
+                    <p className="text-sm truncate">
                       {quiz.description || "No description"}
                     </p>
                   </div>
                 </TableCell>
                 <TableCell>
-                  <Badge variant="outline" className="font-mono">
+                  <Badge variant="neutral" className="font-mono">
                     {quiz.questions?.length || 0}
                   </Badge>
                 </TableCell>
@@ -155,8 +155,9 @@ export default function QuizTable(): React.JSX.Element {
                   <div className="flex items-center justify-end gap-2">
                     {config?.permissions?.includes(PERMISSIONS._UPDATE) && (
                       <Button
-                        variant="outline"
+                        variant="neutral"
                         asChild
+                        size={"icon"}
                         title="Edit Quiz"
                         className="gap-1.5"
                       >
@@ -167,11 +168,10 @@ export default function QuizTable(): React.JSX.Element {
                     )}
                     {config?.permissions?.includes(PERMISSIONS._DELETE) && (
                       <Button
-                        size="sm"
-                        variant="outline"
+                        size="icon"
+                        variant="neutral"
                         onClick={() => handleDelete(quizId)}
                         disabled={isDeleting}
-                        className="text-red-600 hover:text-red-700 hover:bg-red-50"
                         title="Delete Quiz"
                       >
                         <Trash2 className="h-4 w-4" />
@@ -180,7 +180,7 @@ export default function QuizTable(): React.JSX.Element {
                     {!config?.permissions?.length && (
                       <Button
                         asChild
-                        variant="default"
+                        variant="neutral"
                         title={"Start Quiz"}
                         className="gap-1.5"
                       >

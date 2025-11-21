@@ -83,10 +83,10 @@ export default function QuestionForm({
               {!minOptionsReached && (
                 <Button
                   type="button"
-                  variant="ghost"
+                  variant="noShadow"
                   size="icon"
                   onClick={() => onRemoveOption(idx)}
-                  className="h-10 w-10 hover:bg-red-50 hover:text-red-600 flex-shrink-0"
+                  className="h-10 w-10 flex-shrink-0"
                 >
                   <Trash2 className="h-4 w-4" />
                 </Button>
@@ -98,7 +98,7 @@ export default function QuestionForm({
         {!maxOptionsReached && (
           <Button
             type="button"
-            variant="outline"
+            variant="neutral"
             size="sm"
             className="mt-3 w-full"
             onClick={onAddOption}
@@ -162,7 +162,7 @@ export default function QuestionForm({
         {mode === "edit" && onSecondaryAction && secondaryActionLabel && (
           <Button
             type="button"
-            variant="outline"
+            variant="neutral"
             className="flex-1"
             onClick={onSecondaryAction}
           >
@@ -199,7 +199,7 @@ export default function QuestionForm({
   // Create mode: wrap in Card
   if (mode === "create") {
     return (
-      <Card className="border-2 border-dashed border-primary/20">
+      <Card className="">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             ➕ {title || "Add New Question"}

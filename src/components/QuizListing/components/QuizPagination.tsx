@@ -4,6 +4,7 @@ import React from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 import { useQuizListing } from "../context/QuizListingContext";
 
@@ -28,7 +29,7 @@ export default function QuizPagination(): React.JSX.Element | null {
   }
 
   return (
-    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between rounded-lg">
+    <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
       {/* Info */}
       <div className="text-sm">
         Showing <span className="font-semibold">{startIndex}</span>
@@ -51,7 +52,7 @@ export default function QuizPagination(): React.JSX.Element | null {
       <div className="flex items-center gap-2 flex-wrap">
         {/* Previous Button */}
         <Button
-          variant="outline"
+          variant="noShadow"
           size="sm"
           onClick={previousPage}
           disabled={!hasPreviousPage}
@@ -89,10 +90,13 @@ export default function QuizPagination(): React.JSX.Element | null {
             return (
               <Button
                 key={page}
-                variant={currentPage === page ? "default" : "outline"}
+                variant={"noShadow"}
                 size="sm"
                 onClick={() => goToPage(page)}
-                className="h-8 min-w-8"
+                className={cn(
+                  "h-8 min-w-8",
+                  currentPage === page && "bg-black text-white"
+                )}
               >
                 {page}
               </Button>
@@ -102,7 +106,7 @@ export default function QuizPagination(): React.JSX.Element | null {
 
         {/* Next Button */}
         <Button
-          variant="outline"
+          variant="noShadow"
           size="sm"
           onClick={nextPage}
           disabled={!hasNextPage}

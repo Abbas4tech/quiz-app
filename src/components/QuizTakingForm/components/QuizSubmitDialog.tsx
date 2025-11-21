@@ -110,7 +110,7 @@ export default function SubmitQuizDialog({
                   <span className="text-xs font-medium text-slate-700">
                     Completion Rate
                   </span>
-                  <Badge variant="secondary">{completionPercentage}%</Badge>
+                  <Badge variant="default">{completionPercentage}%</Badge>
                 </div>
                 <div className="w-full bg-slate-200 rounded-full h-2">
                   <div

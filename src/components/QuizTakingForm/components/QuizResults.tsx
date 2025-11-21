@@ -123,9 +123,7 @@ export default function QuizResults(): React.JSX.Element {
                             <div className="space-y-1">
                               <div className="flex items-center gap-2">
                                 <Badge
-                                  variant={
-                                    isCorrect ? "default" : "destructive"
-                                  }
+                                  variant={isCorrect ? "default" : "neutral"}
                                   className="mt-0.5"
                                 >
                                   Your answer
@@ -143,7 +141,7 @@ export default function QuizResults(): React.JSX.Element {
                               {!isCorrect && (
                                 <div className="flex items-start gap-2">
                                   <Badge
-                                    variant="outline"
+                                    variant="neutral"
                                     className="bg-green-50 text-green-700 border-green-300 mt-0.5"
                                   >
                                     Correct answer
@@ -155,7 +153,7 @@ export default function QuizResults(): React.JSX.Element {
                               )}
                             </div>
                           ) : (
-                            <Badge variant="secondary" className="bg-slate-100">
+                            <Badge variant="neutral" className="bg-slate-100">
                               Not answered
                             </Badge>
                           )}
@@ -173,7 +171,7 @@ export default function QuizResults(): React.JSX.Element {
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-3">
             <Button
-              variant="outline"
+              variant="neutral"
               className="flex-1"
               onClick={() => router.push("/quizzes")}
             >

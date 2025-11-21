@@ -43,7 +43,7 @@ export default function AppSidebar({
     <Sidebar>
       <SidebarHeader className="border-b px-6 py-4">
         <div className="flex items-center gap-2">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg">
+          <div className="flex h-10 w-10 items-center justify-center">
             <SlidersHorizontal />
           </div>
           <div>
