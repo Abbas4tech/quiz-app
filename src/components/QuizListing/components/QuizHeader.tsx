@@ -36,7 +36,7 @@ export default function QuizHeader({
       {config?.permissions?.includes(PERMISSIONS._WRITE) &&
         totalQuizzes > 0 && (
           <div>
-            <Button variant={"outline"} asChild>
+            <Button variant={"default"} asChild>
               <Link href={"/dashboard/quiz/new"}>
                 <Plus />
                 Create New Quiz

@@ -17,7 +17,12 @@ const AuthButton = forwardRef<HTMLButtonElement, AuthButtonProps>(
 
     if (status === "unauthenticated") {
       return (
-        <Button ref={ref} onClick={() => signIn("google")} {...props}>
+        <Button
+          ref={ref}
+          variant={"neutral"}
+          onClick={() => signIn("google")}
+          {...props}
+        >
           <LogIn />
           Login
         </Button>

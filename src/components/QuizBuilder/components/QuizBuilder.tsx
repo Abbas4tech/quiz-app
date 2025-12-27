@@ -34,7 +34,7 @@ function QuizBuilderContent(): React.JSX.Element {
         className="h-full flex flex-col"
       >
         {/* Fixed Header with Actions */}
-        <div className="sticky top-0 z-10 bg-background border-b px-6 py-4">
+        <div className="sticky top-0 z-10 border-b px-6 py-4">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl font-bold">
@@ -47,7 +47,7 @@ function QuizBuilderContent(): React.JSX.Element {
             <div className="flex gap-3">
               <Button
                 type="button"
-                variant="outline"
+                variant="default"
                 disabled={isSubmitting}
                 onClick={() => window.history.back()}
               >

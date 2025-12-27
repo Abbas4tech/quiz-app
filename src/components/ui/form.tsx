@@ -1,6 +1,5 @@
 "use client";
 
-import * as React from "react";
 import * as LabelPrimitive from "@radix-ui/react-label";
 import { Slot } from "@radix-ui/react-slot";
 import {
@@ -13,9 +12,10 @@ import {
   type FieldPath,
   type FieldValues,
 } from "react-hook-form";
+import * as React from "react";
 
-import { cn } from "@/lib/utils";
 import { Label } from "@/components/ui/label";
+import { cn } from "@/lib/utils";
 
 const Form = FormProvider;
 
@@ -30,16 +30,16 @@ const FormFieldContext = React.createContext<FormFieldContextValue>(
   {} as FormFieldContextValue
 );
 
-const FormField = <
+function FormField<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
->({
-  ...props
-}: ControllerProps<TFieldValues, TName>): React.JSX.Element => (
-  <FormFieldContext.Provider value={{ name: props.name }}>
-    <Controller {...props} />
-  </FormFieldContext.Provider>
-);
+>({ ...props }: ControllerProps<TFieldValues, TName>): React.JSX.Element {
+  return (
+    <FormFieldContext.Provider value={{ name: props.name }}>
+      <Controller {...props} />
+    </FormFieldContext.Provider>
+  );
+}
 
 const useFormField = (): {
   invalid: boolean;
@@ -110,7 +110,7 @@ function FormLabel({
     <Label
       data-slot="form-label"
       data-error={!!error}
-      className={cn("data-[error=true]:text-destructive", className)}
+      className={cn("font-heading", className)}
       htmlFor={formItemId}
       {...props}
     />
@@ -148,7 +148,7 @@ function FormDescription({
     <p
       data-slot="form-description"
       id={formDescriptionId}
-      className={cn("text-muted-foreground text-sm", className)}
+      className={cn("text-sm font-base text-foreground", className)}
       {...props}
     />
   );
@@ -169,7 +169,7 @@ function FormMessage({
     <p
       data-slot="form-message"
       id={formMessageId}
-      className={cn("text-destructive text-sm", className)}
+      className={cn("text-sm font-base text-red-500", className)}
       {...props}
     >
       {body}

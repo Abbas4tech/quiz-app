@@ -77,7 +77,7 @@ const QuizCard = ({
   }
 
   return (
-    <Card className="group relative overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-[1.01] border-2 hover:border-primary/50">
+    <Card className="group relative overflow-hidden bg-secondary-background transition-all duration-300 hover:scale-[1.01]">
       <div className="absolute inset-0 group-hover:opacity-100 transition-opacity" />
 
       <CardHeader className="relative pb-3">
@@ -91,7 +91,7 @@ const QuizCard = ({
             </p>
           </div>
           <div className="flex-shrink-0">
-            <div className="rounded-full bg-primary/10 p-3 group-hover:bg-primary/20 transition-colors">
+            <div className="rounded-full bg-main-foreground/10 p-3 group-hover:bg-main-foreground/20 transition-colors">
               <Brain className="h-6 w-6 text-primary" />
             </div>
           </div>
@@ -102,11 +102,11 @@ const QuizCard = ({
         <CardContent className="relative space-y-4">
           {/* Metadata */}
           <div className="flex flex-wrap gap-2">
-            <Badge variant="secondary" className="flex items-center gap-1">
+            <Badge variant="default" className="flex items-center gap-1">
               <CheckCircle2 className="h-3 w-3" />
               {questionCount} Questions
             </Badge>
-            <Badge variant="outline" className="flex items-center gap-1">
+            <Badge variant="neutral" className="flex items-center gap-1">
               <Clock className="h-3 w-3" />~{estimatedTime} min
             </Badge>
             <Badge className={difficultyColor}>{difficulty}</Badge>
@@ -114,7 +114,7 @@ const QuizCard = ({
 
           <div className="flex w-full items-center gap-2">
             {permissions?.includes(PERMISSIONS._UPDATE) && (
-              <Button asChild variant="outline" className="flex-1 items-center">
+              <Button asChild variant="reverse" className="flex-1 items-center">
                 <Link
                   className="flex"
                   href={`/dashboard/quiz/${quiz._id.toString()}`}
@@ -126,7 +126,7 @@ const QuizCard = ({
             )}
             {permissions?.includes(PERMISSIONS._DELETE) && (
               <Button
-                variant="destructive"
+                variant="reverse"
                 onClick={onDelete && onDelete.bind(null, quiz._id.toString())}
                 disabled={isDeleting}
                 className="flex-1 items-center w-full"

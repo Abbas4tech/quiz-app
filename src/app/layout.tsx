@@ -1,13 +1,33 @@
 import React from "react";
 import type { Metadata } from "next";
-import { Space_Grotesk } from "next/font/google";
+import { Poppins } from "next/font/google";
 
 import "./globals.css";
 import Providers from "@/components/Provider";
 
-const spaceGrotesk = Space_Grotesk({
+const spaceGrotesk = Poppins({
   variable: "--font-space",
   subsets: ["latin"],
+  weight: [
+    "100",
+    "200",
+    "300",
+    "400",
+    "500",
+    "600",
+    "700",
+    "800",
+    "900",
+    "100",
+    "200",
+    "300",
+    "400",
+    "500",
+    "600",
+    "700",
+    "800",
+    "900",
+  ],
 });
 
 export const metadata: Metadata = {
@@ -22,7 +42,9 @@ export default function RootLayout({
 }>): React.JSX.Element {
   return (
     <html suppressHydrationWarning lang="en">
-      <body className={`${spaceGrotesk.variable} antialiased`}>
+      <body
+        className={`${spaceGrotesk.variable} antialiased bg-secondary-background`}
+      >
         <Providers>{children}</Providers>
       </body>
     </html>
