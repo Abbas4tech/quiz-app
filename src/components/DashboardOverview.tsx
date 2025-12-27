@@ -130,7 +130,7 @@ export function DashboardOverview({
           )}
         >
           {/* Total Quizzes */}
-          <Card className="border-2 bg-gradient-to-br from-blue-50 to-blue-50 dark:from-blue-950/20 dark:to-blue-900/20">
+          <Card className="border-2 bg-gradient-to-br from-blue-50 to-blue-50 dark:from-blue-950 dark:to-blue-900">
             <CardContent>
               <div className="flex items-start justify-between">
                 <div>
@@ -150,7 +150,7 @@ export function DashboardOverview({
           </Card>
 
           {/* Total Questions */}
-          <Card className="border-2 bg-gradient-to-br from-purple-50 to-purple-50 dark:from-purple-950/20 dark:to-purple-900/20">
+          <Card className="border-2 bg-gradient-to-br from-purple-50 to-purple-50 dark:from-purple-950 dark:to-purple-900">
             <CardContent>
               <div className="flex items-start justify-between">
                 <div>
@@ -173,7 +173,7 @@ export function DashboardOverview({
 
           {/* My Quizzes */}
           {stats.myQuizzes && (
-            <Card className="border-2 bg-gradient-to-br from-green-50 to-green-50 dark:from-green-950/20 dark:to-green-900/20">
+            <Card className="border-2 bg-gradient-to-br from-green-50 to-green-50 dark:from-green-950 dark:to-green-900">
               <CardContent>
                 <div className="flex items-start justify-between">
                   <div>
@@ -196,7 +196,7 @@ export function DashboardOverview({
           )}
 
           {/* Attempts */}
-          <Card className="border-2 bg-gradient-to-br from-orange-50 to-orange-50 dark:from-orange-950/20 dark:to-orange-900/20">
+          <Card className="border-2 bg-gradient-to-br from-orange-50 to-orange-50 dark:from-orange-950 dark:to-orange-900">
             <CardContent>
               <div className="flex items-start justify-between">
                 <div>
